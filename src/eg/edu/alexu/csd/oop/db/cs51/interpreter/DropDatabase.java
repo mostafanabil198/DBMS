@@ -11,7 +11,7 @@ public class DropDatabase implements Interpreter {
 	private static final String REGEX = "drop database ([A-Za-z_][A-Za-z0-9_]*);*";
 
 	@Override
-	public QueryParameters interpret(String query) {
+	public QueryParameters interpret(String query) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Pattern pattern = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
