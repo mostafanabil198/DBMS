@@ -10,7 +10,7 @@ public class CreateDBInterpereter implements Interpreter {
 	private static final String CREATE_DB_PATTERN = "create database ([A-Za-z_][A-Za-z0-9_]*)";
 
 	@Override
-	public QueryParameters interpret(String query) {
+	public QueryParameters interpret(String query) throws SQLException {
 		Pattern pattern = Pattern.compile(CREATE_DB_PATTERN, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(query);
 		if (matcher.matches()) {
