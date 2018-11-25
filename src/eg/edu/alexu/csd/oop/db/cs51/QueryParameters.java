@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javafx.util.Pair;
+import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
+
 
 /**
  * @author Muhammad Salah
