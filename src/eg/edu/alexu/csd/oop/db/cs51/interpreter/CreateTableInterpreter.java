@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 
 public class CreateTableInterpreter implements Interpreter{
-    private static final String REGEX = "CREATE TABLE ([a-zA-Z_][a-zA-Z0-9_]*) *\\((([a-zA-Z][a-zA-Z0-9]*) (int|string) *(, *([a-zA-Z][a-zA-Z0-9]*) (int|string))*)\\)";
+    private static final String REGEX = "CREATE TABLE ([a-zA-Z_][a-zA-Z0-9_]*) *\\((([a-zA-Z_][a-zA-Z0-9_]*) (int|string) *(, *([a-zA-Z_][a-zA-Z0-9_]*) (int|string))*)\\) *;*";
     @Override
     public QueryParameters interpret(String query) throws SQLException {
-        Pattern pattern = Pattern.compile(REGEX);
+        Pattern pattern = Pattern.compile(REGEX,Pattern.CASE_INSENSITIVE);
         Matcher m = pattern.matcher(query);
         
         if(!m.matches()) {

@@ -14,7 +14,7 @@ public class DropTableInterpreter implements Interpreter {
 	@Override
 	public QueryParameters interpret(String query) throws SQLException {
 		// TODO Auto-generated method stub
-		Pattern regex = Pattern.compile(pattern);
+		Pattern regex = Pattern.compile(pattern,Pattern.CASE_INSENSITIVE);
 		Matcher matcher = regex.matcher(query);
 		 if (matcher.matches()) {
 	          tableName = matcher.group(1);

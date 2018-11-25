@@ -8,7 +8,7 @@ import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 
 public class DropDatabase implements Interpreter {
 
-	private static final String REGEX = "drop database ([A-Za-z_][A-Za-z0-9_]*);*";
+	private static final String REGEX = "drop database ([A-Za-z_][A-Za-z0-9_]*) *;*";
 
 	@Override
 	public QueryParameters interpret(String query) throws SQLException {
