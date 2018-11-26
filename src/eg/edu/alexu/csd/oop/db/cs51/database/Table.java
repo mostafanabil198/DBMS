@@ -3,6 +3,7 @@ package eg.edu.alexu.csd.oop.db.cs51.database;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import eg.edu.alexu.csd.oop.db.cs51.Filters.Filter;
 import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
@@ -12,7 +13,7 @@ import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
  *
  */
 public class Table {
-	private List<List<String>> tableRows;
+	private List<Map<String,String>> tableRows;
 	private Schema schema;
 	private String tableName;
 	private String databaseName;
@@ -143,7 +144,7 @@ public class Table {
 	 * @param path
 	 * @return
 	 */
-	private List<List<String>> loadTableRows(File path) {
+	private List<Map<String,String>> loadTableRows(File path) {
 		//
 		return null;
 	}
