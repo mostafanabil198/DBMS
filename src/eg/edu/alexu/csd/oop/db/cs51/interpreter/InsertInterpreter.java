@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class InsertInterpreter implements Interpreter{
     private static final String REGEX1 = "INSERT INTO ([a-zA-Z_][a-zA-Z0-9_]*) *\\( *(([a-zA-Z_][a-zA-Z0-9_]*) *(, *([a-zA-Z_][a-zA-Z0-9_]*))*) *\\) *"
@@ -75,4 +76,10 @@ public class InsertInterpreter implements Interpreter{
             qp.addColumnValue(values.get(i));
         }
     }
+
+	@Override
+	public void accept(Visitor visit, String query) throws SQLException {
+		// TODO Auto-generated method stub
+		visit.visit(this, query);
+	}
 }
