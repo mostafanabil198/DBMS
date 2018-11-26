@@ -97,6 +97,9 @@ public class QueryParameters {
     
     /***************getters***************/
     
+    /**
+     * @return list of pairs containing column name and datatype pairs
+     */
     public List<Pair<String, String>> getColumnsType(){
         List<Pair<String, String>> columns = new ArrayList<Pair<String, String>>();
         for(int i = 1; i <= colNum; i++) {
@@ -106,6 +109,9 @@ public class QueryParameters {
         return columns;
     }
     
+    /**
+     * @return list of pairs containing the column name and value pairs
+     */
     public List<Pair<String, String>> getColumnsValue(){
         List<Pair<String, String>> columns = new ArrayList<Pair<String, String>>();
         for(int i = 1; i <= colNum; i++) {
@@ -115,6 +121,9 @@ public class QueryParameters {
         return columns;
     }
     
+    /**
+     * @return list of column names
+     */
     public List<String> getColumnsName(){
         List<String> columns = new ArrayList<String>();
         for(int i = 1; i <= colNum; i++) {
