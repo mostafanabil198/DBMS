@@ -4,9 +4,10 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class InterpreterFactory {
+public class InterpreterFactory implements IInterpreterFactory{
 	private static final String REGEX = "((CREATE +TABLE)|(DROP +TABLE)|(CREATE +DATABASE)|(DROP +DATABASE)|(UPDATE)|(DELETE +FROM)|(SELECT)|(INSERT +INTO)).*";
     
+	@Override
     public Interpreter getInterpreterFromQuery(String query) {
         Pattern pattern = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(query);
