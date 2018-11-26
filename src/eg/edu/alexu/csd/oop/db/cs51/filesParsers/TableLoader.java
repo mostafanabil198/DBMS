@@ -35,7 +35,7 @@ public class TableLoader {
 			Map<String, String> colValue = new HashMap<String, String>();
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) nNode;
-				NamedNodeMap rowsContent = eElement.getAttributes();
+				NodeList rowsContent = eElement.getChildNodes();
 				for (int i = 0; i < rowsContent.getLength(); i++) {
 					String key = rowsContent.item(i).getNodeName();
 					String value = rowsContent.item(i).getNodeValue();
