@@ -11,6 +11,7 @@ public class UpdateInterprater implements Interpreter {
 			+ " *(, *([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+)))*) where (.+) *;*";
 	private static final String UPDATE_PATTERN2 = "update ([A-Za-z_][A-Za-z0-9_]*) set (([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+))"
 			+ " *(, *([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+)))*)";
+	private static final String GET_COLUMNS_PATTERN = "(([A-Za-z_][A-Za-z0-9_]*) *= *((\"[^\"]+\")|('[^']+')|(\\d+))(( *,)|(\\z)))";
 
 	@Override
 	public QueryParameters interpret(String query) throws SQLException {
@@ -21,24 +22,31 @@ public class UpdateInterprater implements Interpreter {
 		if (matcher1.matches()) {
 			QueryParameters queryParameters = new QueryParameters();
 			queryParameters.setTableName(matcher1.group(1));
-			getColumnsAndValues(matcher1.group(2));
-			queryParameters.setCondition(matcher1.group(8));
+			getColumnsAndValues(matcher1.group(2), queryParameters);
+			queryParameters.setCondition(matcher1.group(14));
+			return queryParameters;
+		} else if (matcher2.matches()) {
+			QueryParameters queryParameters = new QueryParameters();
+			queryParameters.setTableName(matcher2.group(1));
+			getColumnsAndValues(matcher2.group(2), queryParameters);
 			return queryParameters;
 		} else {
 			throw new SQLException();
 		}
 	}
-	
-	private void getColumnsAndValues(String columns) {
-		String regex = "(([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+))(( *,)|(\\z)))";
-		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
+	private void getColumnsAndValues(String columns, QueryParameters queryParameters) {
+		Pattern pattern = Pattern.compile(GET_COLUMNS_PATTERN, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(columns);
-		int i = 0;
-		while(matcher.find()) {
-			i++;
-			System.out.println(matcher.group(1));
+		while (matcher.find()) {
+			String name = matcher.group(2);
+			String value = matcher.group(3);
+			if (value.startsWith("\'") || value.startsWith("\"")) {
+				value = value.substring(1, value.length()-1);
+			}
+			queryParameters.addColumnValue(name, value);
 		}
-		
+
 	}
 
 }
