@@ -23,9 +23,9 @@ public class InterpreterFactory {
                     return new DropDatabaseInterpreter();
                 case "drop table":
                     return new DropTableInterpreter();
-                case "select into":
+                case "select":
                     return new selectInterpreter();
-                case "insert":
+                case "insert into":
                     return new InsertInterpreter();
                 case "update":
                     return new UpdateInterprater();
