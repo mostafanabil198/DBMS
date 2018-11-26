@@ -2,11 +2,14 @@ package eg.edu.alexu.csd.oop.db.cs51.database;
 
 import java.util.List;
 
+import eg.edu.alexu.csd.oop.db.cs51.filesParsers.SchemaReader;
+import eg.edu.alexu.csd.oop.db.cs51.filesParsers.SchemaWriter;
 import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 
 public class Schema {
     private List<Pair<String, String>> columnType;
     private String schemaFilePath;
+    private String tableName;
     
     private Schema() {
         
@@ -15,6 +18,8 @@ public class Schema {
     public Schema(String tableName) {
     	//get path of database
         //load schema
+    	this.tableName = tableName;
+    	columnType = SchemaReader.readSchema(schemaFilePath);
     }
 
     
@@ -61,11 +66,12 @@ public class Schema {
         return true;
     }
     public void save() {
-      
+      SchemaWriter.saveSchama(schemaFilePath, columnType, tableName);
     }
     public static Schema createNewSchema(String tableName, List<Pair<String, String>> columnType) {
     	Schema schema = new Schema();
     	schema.columnType = columnType;
+    	schema.tableName = tableName;
     	//schema.schemaFilePath = database path + tableName + ".dtd";
         return schema;
     }
