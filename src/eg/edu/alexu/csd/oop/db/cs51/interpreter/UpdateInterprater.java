@@ -8,7 +8,7 @@ import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 
 public class UpdateInterprater implements Interpreter {
 	private static final String UPDATE_PATTERN1 = "update ([A-Za-z_][A-Za-z0-9_]*) set (([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+))"
-			+ " *(, *([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+)))*) where (.+) *;*";
+			+ " *(, *([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+)))*) where ([^;]+) *;*";
 	private static final String UPDATE_PATTERN2 = "update ([A-Za-z_][A-Za-z0-9_]*) set (([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+))"
 			+ " *(, *([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+)))*)";
 	private static final String GET_COLUMNS_PATTERN = "(([A-Za-z_][A-Za-z0-9_]*) *= *((\"[^\"]+\")|('[^']+')|(\\d+))(( *,)|(\\z)))";
