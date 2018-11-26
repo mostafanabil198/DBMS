@@ -38,7 +38,7 @@ public class TableLoader {
 				NodeList rowsContent = eElement.getChildNodes();
 				for (int i = 0; i < rowsContent.getLength(); i++) {
 					String key = rowsContent.item(i).getNodeName();
-					String value = rowsContent.item(i).getNodeValue();
+					String value = rowsContent.item(i).getTextContent();
 					colValue.put(key, value);
 				}
 				rowsValues.add(colValue);
