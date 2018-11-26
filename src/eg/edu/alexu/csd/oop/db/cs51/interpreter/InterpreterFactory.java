@@ -5,6 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InterpreterFactory {
+	private static final String REGEX = "((CREATE +TABLE)|(DROP +TABLE)|(CREATE +DATABASE)|(DROP +DATABASE)|(UPDATE)|(DELETE +FROM)|(SELECT)|(INSERT +INTO)).*";
+	private s
     
     public Interpreter getInterpreterFromQuery(String query) {
         Pattern pattern = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
