@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class DeleteInterpreter implements Interpreter {
     private static final String REGEX1 = "DELETE FROM ([a-zA-Z_][a-zA-Z0-9_]*) WHERE (.+) *;*";
@@ -31,5 +32,11 @@ public class DeleteInterpreter implements Interpreter {
             throw new SQLException();
         }
     }
+
+	@Override
+	public void accept(Visitor visit, String query) throws SQLException {
+		// TODO Auto-generated method stub
+		visit.visit(this, query);
+	}
 
 }

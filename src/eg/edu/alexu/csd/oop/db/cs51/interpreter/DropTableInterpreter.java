@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class DropTableInterpreter implements Interpreter {
 	private static final String pattern = "DROP TABLE ([a-zA-Z_][a-zA-Z0-9_]*) *;*";
@@ -24,6 +25,12 @@ public class DropTableInterpreter implements Interpreter {
 		 QueryParameters parameters = new QueryParameters();
 		 parameters.setTableName(tableName);
 		return parameters;
+	}
+
+	@Override
+	public void accept(Visitor visit, String query) throws SQLException {
+		// TODO Auto-generated method stub
+		visit.visit(this, query);
 	}
 
 }

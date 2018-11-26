@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class UpdateInterprater implements Interpreter {
 	private static final String UPDATE_PATTERN1 = "update ([A-Za-z_][A-Za-z0-9_]*) set (([A-Za-z_][A-Za-z0-9_]*) *= *((\".+\")|('.+')|(\\d+))"
@@ -47,6 +48,13 @@ public class UpdateInterprater implements Interpreter {
 			queryParameters.addColumnValue(name, value);
 		}
 
+	}
+
+	@Override
+	public void accept(Visitor visit, String query) throws SQLException {
+		// TODO Auto-generated method stub
+		visit.visit(this, query);
+		
 	}
 
 }

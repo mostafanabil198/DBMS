@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class CreateTableInterpreter implements Interpreter{
     private static final String REGEX = "CREATE TABLE ([a-zA-Z_][a-zA-Z0-9_]*) *\\( *(([a-zA-Z_][a-zA-Z0-9_]*) (int|string) *(, *([a-zA-Z_][a-zA-Z0-9_]*) (int|string))*) *\\) *;*";
@@ -30,5 +31,11 @@ public class CreateTableInterpreter implements Interpreter{
             qp.addColumnType(ps[0].trim(), ps[1].trim());
         }
     }
+
+	@Override
+	public void accept(Visitor visit, String query) throws SQLException {
+		// TODO Auto-generated method stub
+		visit.visit(this, query);
+	}
 
 }
