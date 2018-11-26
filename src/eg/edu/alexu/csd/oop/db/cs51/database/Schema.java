@@ -5,7 +5,17 @@ import java.util.List;
 import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 
 public class Schema {
-    private List<Pair>
+    private List<Pair<String, String>> columnType;
+    private String schemaFilePath;
+    
+    public Schema() {
+        
+    }
+    
+    public Schema(String tableName) {
+        //load schema
+    }
+
     
     public boolean validateColumnNames(List<String> columns) {
         return true;
