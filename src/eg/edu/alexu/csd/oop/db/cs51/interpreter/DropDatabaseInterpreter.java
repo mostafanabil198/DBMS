@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 
-public class DropDatabase implements Interpreter {
+public class DropDatabaseInterpreter implements Interpreter {
 
 	private static final String REGEX = "drop database ([A-Za-z_][A-Za-z0-9_]*) *;*";
 
