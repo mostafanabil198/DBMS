@@ -125,6 +125,9 @@ public class QueryParameters {
     }
     
     public String getCondition() {
+        if(!param.containsKey(this.CONDITION)) {
+            return "*";
+        }
         return param.get(this.CONDITION);
     }
     
