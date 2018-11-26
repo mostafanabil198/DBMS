@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class DropDatabaseInterpreter implements Interpreter {
 
@@ -24,5 +25,11 @@ public class DropDatabaseInterpreter implements Interpreter {
 
 			throw new SQLException();
 		}
+	}
+
+	@Override
+	public void accept(Visitor visit, String query) throws SQLException {
+		// TODO Auto-generated method stub
+		visit.visit(this, query);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class SelectInterpreter implements Interpreter {
 	private static final String SELECT_PATTERN1 = "select (([A-Za-z_][A-Za-z0-9_]*)( *, *[A-Za-z_][A-Za-z0-9_]*)*) from ([A-Za-z_][A-Za-z0-9_]*) *;*";
@@ -50,6 +51,12 @@ public class SelectInterpreter implements Interpreter {
 		while (match.find()) {
 			queryParameters.addColumnName(match.group(1));
 		}
+	}
+
+	@Override
+	public void accept(Visitor visit, String query) throws SQLException {
+		// TODO Auto-generated method stub
+		visit.visit(this, query);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class CreateDBInterpereter implements Interpreter {
 	private static final String CREATE_DB_PATTERN = "create database ([A-Za-z_][A-Za-z0-9_]*) *;*";
@@ -20,6 +21,12 @@ public class CreateDBInterpereter implements Interpreter {
 		} else {
 			throw new SQLException();
 		}
+	}
+
+	@Override
+	public void accept(Visitor visit, String query) throws SQLException {
+		// TODO Auto-generated method stub
+		visit.visit(this, query);
 	}
 
 }
