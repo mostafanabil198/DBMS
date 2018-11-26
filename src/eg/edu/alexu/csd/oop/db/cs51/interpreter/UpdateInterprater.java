@@ -43,7 +43,7 @@ public class UpdateInterprater implements Interpreter {
 			String name = matcher.group(2);
 			String value = matcher.group(3);
 			if (value.startsWith("\'") || value.startsWith("\"")) {
-				value = value.substring(1, value.length()-1);
+				value = value.substring(1, value.length() - 1);
 			}
 			queryParameters.addColumnValue(name, value);
 		}
@@ -51,10 +51,9 @@ public class UpdateInterprater implements Interpreter {
 	}
 
 	@Override
-	public void accept(Visitor visit, String query) throws SQLException {
+	public Object accept(Visitor visit, String query) throws SQLException {
 		// TODO Auto-generated method stub
-		visit.visit(this, query);
-		
+		return visit.visit(this, query);
 	}
 
 }

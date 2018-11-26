@@ -11,5 +11,5 @@ public interface Interpreter {
 	 * @return the parameters of the query 
 	 */
 	public QueryParameters interpret(String query)  throws SQLException;
-	public void accept(Visitor visit,String query) throws SQLException;
+	public Object accept(Visitor visit,String query) throws SQLException;
 }

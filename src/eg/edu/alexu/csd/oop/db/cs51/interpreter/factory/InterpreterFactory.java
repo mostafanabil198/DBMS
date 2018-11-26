@@ -1,8 +1,18 @@
-package eg.edu.alexu.csd.oop.db.cs51.interpreter;
+package eg.edu.alexu.csd.oop.db.cs51.interpreter.factory;
 
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateDBInterpereter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.DeleteInterpreter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropDatabaseInterpreter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropTableInterpreter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.InsertInterpreter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.Interpreter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterprater;
 
 public class InterpreterFactory implements IInterpreterFactory{
 	private static final String REGEX = "((CREATE +TABLE)|(DROP +TABLE)|(CREATE +DATABASE)|(DROP +DATABASE)|(UPDATE)|(DELETE +FROM)|(SELECT)|(INSERT +INTO)).*";

@@ -15,22 +15,21 @@ public class DropTableInterpreter implements Interpreter {
 	@Override
 	public QueryParameters interpret(String query) throws SQLException {
 		// TODO Auto-generated method stub
-		Pattern regex = Pattern.compile(pattern,Pattern.CASE_INSENSITIVE);
+		Pattern regex = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
 		Matcher matcher = regex.matcher(query);
-		 if (matcher.matches()) {
-	          tableName = matcher.group(1);
-	      }else {
-	         throw new SQLException();
-	      }
-		 QueryParameters parameters = new QueryParameters();
-		 parameters.setTableName(tableName);
+		if (matcher.matches()) {
+			tableName = matcher.group(1);
+		} else {
+			throw new SQLException();
+		}
+		QueryParameters parameters = new QueryParameters();
+		parameters.setTableName(tableName);
 		return parameters;
 	}
 
 	@Override
-	public void accept(Visitor visit, String query) throws SQLException {
+	public Object accept(Visitor visit, String query) throws SQLException {
 		// TODO Auto-generated method stub
-		visit.visit(this, query);
+		return visit.visit(this, query);
 	}
-
 }

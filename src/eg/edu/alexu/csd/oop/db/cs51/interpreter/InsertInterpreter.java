@@ -77,9 +77,9 @@ public class InsertInterpreter implements Interpreter{
         }
     }
 
-	@Override
-	public void accept(Visitor visit, String query) throws SQLException {
+    @Override
+	public Object accept(Visitor visit, String query) throws SQLException {
 		// TODO Auto-generated method stub
-		visit.visit(this, query);
+		return visit.visit(this, query);
 	}
 }

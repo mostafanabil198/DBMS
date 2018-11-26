@@ -6,7 +6,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
-import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropDatabase;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.Interpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
@@ -48,7 +47,6 @@ public class MainMostafa {
 		}
 		System.out.println(q.getCondition());
 		System.out.println(q.getTableName());
-		
 		
 
 	}
