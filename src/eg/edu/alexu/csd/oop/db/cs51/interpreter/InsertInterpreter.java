@@ -16,9 +16,9 @@ public class InsertInterpreter implements Interpreter{
             + "VALUES *\\( *((('[^']+')|(\\d+)|(\"[^\"]+\")) *(, *(('[^']+')|(\\d+)|(\"[^\"]+\")))*) *\\) *;*";
     @Override
     public QueryParameters interpret(String query) throws SQLException {
-        Pattern pattern1 = Pattern.compile(REGEX1);
+        Pattern pattern1 = Pattern.compile(REGEX1, Pattern.CASE_INSENSITIVE);
         Matcher matcher1 = pattern1.matcher(query);
-        Pattern pattern2 = Pattern.compile(REGEX2);
+        Pattern pattern2 = Pattern.compile(REGEX2, Pattern.CASE_INSENSITIVE);
         Matcher matcher2 = pattern2.matcher(query);
         if(matcher1.matches()) {
             QueryParameters qp = new QueryParameters();
@@ -53,7 +53,7 @@ public class InsertInterpreter implements Interpreter{
     private List<String> addcolumns(String param) {
         List<String> columns = new ArrayList<String>();
         String regex = "([a-zA-Z_][a-zA-Z0-9_]*) *(, *([a-zA-Z_][a-zA-Z0-9_]*))";
-        Pattern p = Pattern.compile(regex);
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(param);
         while(m.find()) {
             columns.add(m.group(1));
@@ -68,11 +68,19 @@ public class InsertInterpreter implements Interpreter{
     private void mergeValuesColumns(QueryParameters qp, List<String> values, List<String> columns) throws SQLException {
         if(values.size() != columns.size()) throw new SQLException();
         for(int i = 0; i < values.size(); i++) {
-            qp.addColumnValue(columns.get(i), values.get(i));
+            String v = values.get(i);
+            if(v.matches("((\"[^\"]+\")|('[^']+'))")) {
+                v = v.substring(1, v.length() - 1);
+            }
+            qp.addColumnValue(columns.get(i), v);
         }
     }
     private void setValues(QueryParameters qp, List<String> values) throws SQLException {
         for(int i = 0; i < values.size(); i++) {
+            String v = values.get(i);
+            if(v.matches("((\"[^\"]+\")|('[^']+'))")) {
+                v = v.substring(1, v.length() - 1);
+            }
             qp.addColumnValue(values.get(i));
         }
     }

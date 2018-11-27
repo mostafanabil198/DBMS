@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
-public class CreateDBInterpereter implements Interpreter {
+public class CreateDBInterpreter implements Interpreter {
 	private static final String CREATE_DB_PATTERN = "create database ([A-Za-z_][A-Za-z0-9_]*) *;*";
 
 	@Override

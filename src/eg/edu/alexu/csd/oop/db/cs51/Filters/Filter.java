@@ -1,5 +1,8 @@
 package eg.edu.alexu.csd.oop.db.cs51.Filters;
 
-public interface Filter {
+import java.util.List;
+import java.util.Map;
 
+public interface Filter {
+    public List<Map<String, String>> filterTable(List<Map<String, String>> table);
 }
