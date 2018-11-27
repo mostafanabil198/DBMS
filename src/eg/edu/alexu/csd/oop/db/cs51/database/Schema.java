@@ -25,9 +25,19 @@ public class Schema {
     	columnType = SchemaReader.readSchema(schemaFilePath);
     }
 
+    public List<String> getColumns(){
+        List<String> col = new ArrayList<String>();
+        for(Pair<String, String> p : columnType) {
+            col.add(p.getKey());
+        }
+        return col;
+    }
     
     public boolean validateColumnNames(List<String> columns) {
         if(columnType.size() < columns.size()) return false;
+        if(columns.size() == 1) {
+            if(columns.get(0).equals("*")) return true;
+        }
     	boolean validate;
     	for(int i = 0;i < columns.size(); i++){
     		validate = false;
