@@ -3,6 +3,7 @@ package eg.edu.alexu.csd.oop.db.cs51.filesParsers;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,8 +19,11 @@ public class SchemaReader {
     public static List<Pair<String, String>> readSchema(String pathToSchema){
         File file = new File(pathToSchema);
         List<Pair<String, String>> columnType = new ArrayList<Pair<String, String>>();
+        BufferedReader bf = null;
+        FileReader fr = null;
         try {
-            BufferedReader bf = new BufferedReader(new FileReader(file));
+            fr = new FileReader(file);
+            bf = new BufferedReader(fr);
             
             Pattern pattern = Pattern.compile(TABLE_NAME_REGEX);
             Matcher matcher = pattern.matcher(bf.readLine());
@@ -67,6 +71,21 @@ public class SchemaReader {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        } finally {
+            if(bf != null) {
+                try {
+                    bf.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(fr != null) {
+                try {
+                    fr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     
