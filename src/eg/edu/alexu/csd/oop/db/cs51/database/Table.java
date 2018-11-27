@@ -2,6 +2,7 @@ package eg.edu.alexu.csd.oop.db.cs51.database;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,9 +64,17 @@ public class Table {
 	 * 
 	 * @param columnValue
 	 * @return
+	 * @throws SQLException
 	 */
-	public int insertUnOrdered(List<Pair<String, String>> columnValue) {
-		return 1;
+	public int insertUnOrdered(List<Pair<String, String>> columnValue) throws SQLException {
+		Map<String, String> newRow = schema.validateColumnValueType(columnValue);
+		if (newRow == null) {
+			throw new SQLException();
+		} else {
+			tableRows.add(newRow);
+			return 1;
+		}
+
 	}
 
 	/**
@@ -74,9 +83,11 @@ public class Table {
 	 * @param columnValue
 	 * @return
 	 */
-	public int insertOrdered(List<Pair<String, String>> columnValue) {
-		return 1;
-	}
+	/*
+	 * public int insertOrdered(List<Pair<String, String>> columnValue) {
+	 * 
+	 * return 1; }
+	 */
 
 	/**
 	 * drop table
@@ -84,7 +95,13 @@ public class Table {
 	 * @return
 	 */
 	public boolean drop() {
-		return true;
+		File schemaDtd = new File(databaseName + File.separator + tableName + ".DTD");
+		if (tablePath.exists()) {
+			tablePath.delete();
+			schemaDtd.delete();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -103,8 +120,9 @@ public class Table {
 	 * @return
 	 */
 	public int delete() {
+		int size = tableRows.size();
 		tableRows.clear();
-		return tableRows.size();
+		return size;
 	}
 
 	/**
@@ -112,9 +130,26 @@ public class Table {
 	 * 
 	 * @param columnValue
 	 * @return
+	 * @throws SQLException
 	 */
-	public int update(List<Pair<String, String>> columnValue) {
-		return 1;
+	public int update(List<Pair<String, String>> columnValue) throws SQLException {
+		Map<String, String> updateRow = schema.validateColumnValueType(columnValue);
+		if (updateRow == null) {
+			throw new SQLException();
+		} else {
+			for (String k : updateRow.keySet()) {
+				if (updateRow.get(k) == "NULL") {
+					updateRow.remove(k);
+				}
+			}
+			for (Map<String, String> row : tableRows) {
+				for (String k : updateRow.keySet()) {
+					row.put(k, updateRow.get(k));
+				}
+			}
+			return tableRows.size();
+		}
+
 	}
 
 	/**
@@ -133,9 +168,35 @@ public class Table {
 	 * 
 	 * @param columns
 	 * @return
+	 * @throws SQLException 
 	 */
-	public Object[][] select(List<String> columns) {
-		return null;
+	public Object[][] select(List<String> columns) throws SQLException {
+		if(schema.validateColumnNames(columns)) {
+			List<String>columnsOrder=schema.getColumns();
+			if(columns.size()==1 && columns.get(0)=="*") {
+				if(!tableRows.isEmpty()) {
+					Object[][] allTable=new Object[tableRows.size()][tableRows.get(0).size()];
+					for(int i=0;i<tableRows.size();i++) {
+						for(int j=0;j<columnsOrder.size();j++) {
+							try{
+							allTable[i][j]=Integer.parseInt(tableRows.get(i).get(columnsOrder.get(j)));
+							} catch(Exception e) {
+								allTable[i][j]=tableRows.get(i).get(columnsOrder.get(j));
+							}
+						}
+					}
+				}else {
+					return new Object[0][0];
+				}
+				
+				
+			}else {
+				
+			}
+		}else {
+			return new Object[0][0];
+		}
+		
 
 	}
 
