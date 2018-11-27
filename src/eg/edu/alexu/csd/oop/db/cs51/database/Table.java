@@ -2,6 +2,7 @@ package eg.edu.alexu.csd.oop.db.cs51.database;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,9 +64,17 @@ public class Table {
 	 * 
 	 * @param columnValue
 	 * @return
+	 * @throws SQLException 
 	 */
-	public int insertUnOrdered(List<Pair<String, String>> columnValue) {
+	public int insertUnOrdered(List<Pair<String, String>> columnValue) throws SQLException {
+	Map<String ,String> newRow=schema.validateColumnValueType(columnValue);
+	if(newRow==null) {
+		throw new SQLException();
+	}else {
+		tableRows.add(newRow);
 		return 1;
+	}
+	
 	}
 
 	/**
@@ -74,9 +83,10 @@ public class Table {
 	 * @param columnValue
 	 * @return
 	 */
-	public int insertOrdered(List<Pair<String, String>> columnValue) {
+	/*public int insertOrdered(List<Pair<String, String>> columnValue) {
+		
 		return 1;
-	}
+	}*/
 
 	/**
 	 * drop table
@@ -84,7 +94,13 @@ public class Table {
 	 * @return
 	 */
 	public boolean drop() {
-		return true;
+		File schemaDtd= new File(databaseName + File.separator + tableName + ".DTD");
+		if(tablePath.exists()) {
+			tablePath.delete();
+			schemaDtd.delete();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -103,8 +119,9 @@ public class Table {
 	 * @return
 	 */
 	public int delete() {
+		int size= tableRows.size();
 		tableRows.clear();
-		return tableRows.size();
+		return size;
 	}
 
 	/**
