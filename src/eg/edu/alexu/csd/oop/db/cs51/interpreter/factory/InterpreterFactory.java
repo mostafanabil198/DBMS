@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateDBInterpereter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateDBInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DeleteInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropDatabaseInterpreter;
@@ -12,7 +12,7 @@ import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.InsertInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.Interpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
-import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterprater;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 
 public class InterpreterFactory implements IInterpreterFactory{
 	private static final String REGEX = "((CREATE +TABLE)|(DROP +TABLE)|(CREATE +DATABASE)|(DROP +DATABASE)|(UPDATE)|(DELETE +FROM)|(SELECT)|(INSERT +INTO)).*";
@@ -26,7 +26,7 @@ public class InterpreterFactory implements IInterpreterFactory{
 			found = found.replaceAll(" +", " ");
 			switch (found) {
 			case "create database":
-				return new CreateDBInterpereter();
+				return new CreateDBInterpreter();
 			case "create table":
 				return new CreateTableInterpreter();
 			case "drop database":
@@ -38,7 +38,7 @@ public class InterpreterFactory implements IInterpreterFactory{
 			case "insert into":
 				return new InsertInterpreter();
 			case "update":
-				return new UpdateInterprater();
+				return new UpdateInterpreter();
 			case "delete from":
 				return new DeleteInterpreter();
 			default:

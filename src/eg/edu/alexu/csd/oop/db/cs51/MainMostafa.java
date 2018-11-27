@@ -21,7 +21,7 @@ import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.Interpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
-import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterprater;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 
 

@@ -46,7 +46,7 @@ public class SelectInterpreter implements Interpreter {
 
 	private void getColumnsNames(String columns, QueryParameters queryParameters) {
 		columns = columns.trim();
-		Pattern pattern = Pattern.compile(GET_COLUMNS_PATTERN);
+		Pattern pattern = Pattern.compile(GET_COLUMNS_PATTERN, Pattern.CASE_INSENSITIVE);
 		Matcher match = pattern.matcher(columns);
 		while (match.find()) {
 			queryParameters.addColumnName(match.group(1));

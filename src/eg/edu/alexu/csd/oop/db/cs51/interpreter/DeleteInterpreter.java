@@ -14,9 +14,9 @@ public class DeleteInterpreter implements Interpreter {
     @Override
     public QueryParameters interpret(String query) throws SQLException {
         // TODO Auto-generated method stub
-        Pattern pattern1 = Pattern.compile(REGEX1);
+        Pattern pattern1 = Pattern.compile(REGEX1, Pattern.CASE_INSENSITIVE);
         Matcher matcher1 = pattern1.matcher(query);
-        Pattern pattern2 = Pattern.compile(REGEX2);
+        Pattern pattern2 = Pattern.compile(REGEX2, Pattern.CASE_INSENSITIVE);
         Matcher matcher2 = pattern2.matcher(query);
         
         if(matcher1.matches()) {

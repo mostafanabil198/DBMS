@@ -2,19 +2,19 @@ package eg.edu.alexu.csd.oop.db.cs51.visitor;
 
 import java.sql.SQLException;
 
-import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateDBInterpereter;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateDBInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DeleteInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropDatabaseInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DropTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.InsertInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
-import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterprater;
+import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 
 public class InterpretersVisitor implements Visitor {
 
 	@Override
-	public Object visit(CreateDBInterpereter createDBInterpereter, String query) throws SQLException {
+	public Object visit(CreateDBInterpreter createDBInterpereter, String query) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -56,7 +56,7 @@ public class InterpretersVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(UpdateInterprater updateInterprater, String query) throws SQLException {
+	public Object visit(UpdateInterpreter updateInterprater, String query) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
