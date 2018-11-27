@@ -54,7 +54,12 @@ public class Schema {
     	    for (Pair<String, String> cv : columnValue) {
     	        String cName = cv.getKey();
     	        String colValue = cv.getValue();
-    	        
+    	        try {
+                    int colNum = Integer.parseInt(cName);
+                    colNum--;
+                    cName = columnType.get(colNum).getKey();
+                } catch (Exception e) {
+                }
     	        if(colName.equals(cName)) {
     	            if(colType.equals("int")) {
     	                try {
