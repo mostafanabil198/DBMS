@@ -19,7 +19,7 @@ public class Schema {
     }
     
     public Schema(String tableName) {
-    	//get path of database
+    	schemaFilePath = CurrentDatabase.getInstance().getPath() + System.getProperty("file.separator") + tableName + ".dtd";
         //load schema
     	this.tableName = tableName;
     	columnType = SchemaReader.readSchema(schemaFilePath);

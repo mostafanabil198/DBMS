@@ -30,6 +30,17 @@ public class Cache {
 	private void dead(Table o) {
 		o.save();
 	}
+	
+	public void shutdownCache() {
+		if (unlock.size() > 0) {
+			Enumeration<Table> e = unlock.keys();
+			while (e.hasMoreElements()) {
+				Table t = e.nextElement();
+					unlock.remove(t);
+					dead(t);
+			}
+		}
+	}
 
 	public synchronized Table takeOut(String tableName) throws ParserConfigurationException, SAXException, IOException {
 		long now = System.currentTimeMillis();

@@ -15,6 +15,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import eg.edu.alexu.csd.oop.db.cs51.database.CurrentDatabase;
+import eg.edu.alexu.csd.oop.db.cs51.database.Table;
+import eg.edu.alexu.csd.oop.db.cs51.filesParsers.SchemaWriter;
 import eg.edu.alexu.csd.oop.db.cs51.filesParsers.TableLoader;
 import eg.edu.alexu.csd.oop.db.cs51.filesParsers.TableWriter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
@@ -24,97 +27,82 @@ import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 
-
-
-
 public class MainMostafa {
-	
-	
-	static class Message extends Thread {
 
-	      public void run() {
-	  		List<Map<String,String>> list = new ArrayList<>();
-	  		Map m = new HashMap<>();
-	  		m.put("id", "1");
-	  		m.put("name", "mostafa");
-	  		m.put("age", "20");
-	  		m.put("gender", "male");
-	  		list.add(m);
-	  		
-	  		m = new HashMap<>();
-	  		m.put("id", "2");
-	  		m.put("name", "nashar");
-	  		m.put("age", "20");
-	  		m.put("gender", "male");
-	  		list.add(m);
-	  		
-	  		m = new HashMap<>();
-	  		m.put("id", "3");
-	  		m.put("name", "tarek");
-	  		m.put("age", "21");
-	  		m.put("gender", "male");
-	  		list.add(m);
-	  		
-	  		m = new HashMap<>();
-	  		m.put("id", "4");
-	  		m.put("name", "sala7");
-	  		m.put("age", "21");
-	  		m.put("gender", "male");
-	  		list.add(m);
-	  		
-	  		TableWriter tw = new TableWriter();
-	  		tw.saveTable(new File("saveMostafa1.xml"), list);
-	      }
-	   }
-	
+	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, SQLException {
+		CurrentDatabase.getInstance().createDatabase("7a7a", false);
+		createTable();
 
-	public static void main(String[] args) throws SQLException, ParserConfigurationException, SAXException, IOException {
-//		List<Map<String,String>> list = new ArrayList<>();
-//		Map m = new HashMap<>();
-//		m.put("id", "1");
-//		m.put("name", "mostafa");
-//		m.put("age", "20");
-//		m.put("gender", "male");
-//		list.add(m);
-//		
-//		m = new HashMap<>();
-//		m.put("id", "2");
-//		m.put("name", "nashar");
-//		m.put("age", "20");
-//		m.put("gender", "male");
-//		list.add(m);
-//		
-//		m = new HashMap<>();
-//		m.put("id", "3");
-//		m.put("name", "tarek");
-//		m.put("age", "21");
-//		m.put("gender", "male");
-//		list.add(m);
-//		
-//		m = new HashMap<>();
-//		m.put("id", "4");
-//		m.put("name", "sala7");
-//		m.put("age", "21");
-//		m.put("gender", "male");
-//		list.add(m);
+	}
+
+	public static void createTable() throws ParserConfigurationException, SAXException, IOException, SQLException {
+		List<Map<String, String>> list = new ArrayList<>();
+		Map m = new HashMap<>();
+		m.put("id", "1");
+		m.put("name", "mostafa");
+		m.put("age", "20");
+		m.put("gender", "male");
+		list.add(m);
+
+		m = new HashMap<>();
+		m.put("id", "2");
+		m.put("name", "nashar");
+		m.put("age", "20");
+		m.put("gender", "male");
+		list.add(m);
+
+		m = new HashMap<>();
+		m.put("id", "3");
+		m.put("name", "tarek");
+		m.put("age", "21");
+		m.put("gender", "male");
+		list.add(m);
+
+		m = new HashMap<>();
+		m.put("id", "4");
+		m.put("name", "sala7");
+		m.put("age", "21");
+		m.put("gender", "male");
+		list.add(m);
+		TableWriter tw = new TableWriter();
+		tw.saveTable(new File("7a7a/saveMostafa1.xml"), list);
+
+		SchemaWriter sw = new SchemaWriter();
+		List<Pair<String, String>> colType = new ArrayList<>();
+		Pair<String, String> p = new Pair("id", "int");
+		colType.add(p);
+		p = new Pair("name", "string");
+		colType.add(p);
+		p = new Pair("age", "int");
+		colType.add(p);
+		p = new Pair("gender", "string");
+		colType.add(p);
+		sw.saveSchama("7a7a/saveMostafa1.dtd", colType, "saveMostafa1");
 		
-//		TableWriter tw = new TableWriter();
-//		tw.saveTable(new File("saveMostafa.xml"), list);
-//		
-//		TableLoader tl = new TableLoader();
-//		List<Map<String,String>> l = tl.load(new File("saveMostafa.xml"));
-//		System.out.println(l.size());
-//		for(Map<String, String> row : l ) {
-//			System.out.println("Row");
-//			for(String s : row.keySet()) {
-//				System.out.println(s + " : " + row.get(s));
-//			}
-//			System.out.println(row.size());
-//		}
-        Runtime.getRuntime().addShutdownHook(new Message());
+		Table t = CurrentDatabase.getInstance().getTableFromCache("saveMostafa1");
+		List<String>  l = new ArrayList<>();
+		l.add("id");
+		Object[][] tb =  t.select(l);
+		for(int i = 0; i < tb.length; i++) {
+			for(int y = 0; y<tb[i].length; y++) {
+				System.out.println(tb[i][y]);
+			}
+		}
+		CurrentDatabase.getInstance().cacheTable(t);
+		
+		 t = CurrentDatabase.getInstance().getTableFromCache("saveMostafa1");
+			  l = new ArrayList<>();
+			l.add("name");
+			tb =  t.select(l);
+			for(int i = 0; i < tb.length; i++) {
+				for(int y = 0; y<tb[i].length; y++) {
+					System.out.println(tb[i][y]);
+				}
+			}
+			CurrentDatabase.getInstance().cacheTable(t);
+		
+		
 
-		Scanner s = new Scanner(System.in);
-		s.nextLine();
 	}
 
 }
