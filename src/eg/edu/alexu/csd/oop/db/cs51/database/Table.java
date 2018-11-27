@@ -168,35 +168,67 @@ public class Table {
 	 * 
 	 * @param columns
 	 * @return
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public Object[][] select(List<String> columns) throws SQLException {
-		if(schema.validateColumnNames(columns)) {
-			List<String>columnsOrder=schema.getColumns();
-			if(columns.size()==1 && columns.get(0)=="*") {
-				if(!tableRows.isEmpty()) {
-					Object[][] allTable=new Object[tableRows.size()][tableRows.get(0).size()];
-					for(int i=0;i<tableRows.size();i++) {
-						for(int j=0;j<columnsOrder.size();j++) {
-							try{
-							allTable[i][j]=Integer.parseInt(tableRows.get(i).get(columnsOrder.get(j)));
-							} catch(Exception e) {
-								allTable[i][j]=tableRows.get(i).get(columnsOrder.get(j));
+		if (schema.validateColumnNames(columns)) {
+			
+			
+			List<String> columnsOrder = schema.getColumns();
+			
+			
+			
+			if (columns.size() == 1 && columns.get(0) == "*") {
+				
+				
+				if (!tableRows.isEmpty()) {
+					
+					
+					Object[][] allTable = new Object[tableRows.size()][tableRows.get(0).size()];
+					for (int i = 0; i < tableRows.size(); i++) {
+						
+						
+						for (int j = 0; j < columnsOrder.size(); j++) {
+							
+							
+							try {
+								allTable[i][j] = Integer.parseInt(tableRows.get(i).get(columnsOrder.get(j)));
+							} catch (Exception e) {
+								allTable[i][j] = tableRows.get(i).get(columnsOrder.get(j));
 							}
 						}
 					}
-				}else {
+					return allTable;
+				} else {
 					return new Object[0][0];
 				}
-				
-				
-			}else {
-				
+
 			}
-		}else {
+			
+			
+			
+			
+			else {
+				Object [][]allTable=new Object[tableRows.size()][columns.size()];
+				if (!tableRows.isEmpty()) {
+					for(int i=0;i<tableRows.size();i++) {
+						for(int j=0;j<columns.size();j++) {
+							allTable[i][j]=tableRows.get(i).get(columns.get(j));
+						}
+					}
+					return allTable;
+				}else {
+					return new Object[0][0];
+					
+				}
+
+			}
+		} 
+		
+		
+		else {
 			return new Object[0][0];
 		}
-		
 
 	}
 
