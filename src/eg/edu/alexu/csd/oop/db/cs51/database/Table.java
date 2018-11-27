@@ -36,10 +36,10 @@ public class Table {
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
-	public Table(String databaseName, String tableName) throws ParserConfigurationException, SAXException, IOException {
-		this.databaseName = databaseName;
+	private Table(String tableName) throws ParserConfigurationException, SAXException, IOException {
+		this.databaseName = CurrentDatabase.getInstance().getPath();
 		this.tableName = tableName;
-		this.tablePath = new File(databaseName + File.separator + tableName + ".xml");
+		this.tablePath = new File(databaseName + System.getProperty("file.separator") + tableName + ".xml");
 		this.tableRows = loadTableRows(tablePath);
 		schema = new Schema(tableName);
 	}
@@ -51,8 +51,8 @@ public class Table {
 	 * @param tableName
 	 * @param columnType
 	 */
-	private Table(String databaseName, String tableName, List<Pair<String, String>> columnType) {
-		this.databaseName = databaseName;
+	private Table(String tableName, List<Pair<String, String>> columnType) {
+		this.databaseName = CurrentDatabase.getInstance().getPath();
 		this.tableName = tableName;
 		this.tablePath = new File(databaseName + File.separator + tableName + ".xml");
 		schema = Schema.createNewSchema(tableName, columnType);
@@ -95,7 +95,8 @@ public class Table {
 	 * @return
 	 */
 	public boolean drop() {
-		File schemaDtd = new File(databaseName + File.separator + tableName + ".DTD");
+		// --------------------- drop in db and cache ----------------------------/
+		File schemaDtd = new File(databaseName + System.getProperty("file.separator") + tableName + ".dtd");
 		if (tablePath.exists()) {
 			tablePath.delete();
 			schemaDtd.delete();
@@ -172,25 +173,18 @@ public class Table {
 	 */
 	public Object[][] select(List<String> columns) throws SQLException {
 		if (schema.validateColumnNames(columns)) {
-			
-			
+
 			List<String> columnsOrder = schema.getColumns();
-			
-			
-			
+
 			if (columns.size() == 1 && columns.get(0) == "*") {
-				
-				
+
 				if (!tableRows.isEmpty()) {
-					
-					
+
 					Object[][] allTable = new Object[tableRows.size()][tableRows.get(0).size()];
 					for (int i = 0; i < tableRows.size(); i++) {
-						
-						
+
 						for (int j = 0; j < columnsOrder.size(); j++) {
-							
-							
+
 							try {
 								allTable[i][j] = Integer.parseInt(tableRows.get(i).get(columnsOrder.get(j)));
 							} catch (Exception e) {
@@ -204,28 +198,28 @@ public class Table {
 				}
 
 			}
-			
-			
-			
-			
+
 			else {
-				Object [][]allTable=new Object[tableRows.size()][columns.size()];
+				Object[][] allTable = new Object[tableRows.size()][columns.size()];
 				if (!tableRows.isEmpty()) {
-					for(int i=0;i<tableRows.size();i++) {
-						for(int j=0;j<columns.size();j++) {
-							allTable[i][j]=tableRows.get(i).get(columns.get(j));
+					for (int i = 0; i < tableRows.size(); i++) {
+						for (int j = 0; j < columns.size(); j++) {
+							try {
+								allTable[i][j] = Integer.parseInt(tableRows.get(i).get(columns.get(j)));
+							} catch (Exception e) {
+								allTable[i][j] = tableRows.get(i).get(columns.get(j));
+							}
 						}
 					}
 					return allTable;
-				}else {
+				} else {
 					return new Object[0][0];
-					
+
 				}
 
 			}
-		} 
-		
-		
+		}
+
 		else {
 			return new Object[0][0];
 		}
@@ -273,9 +267,18 @@ public class Table {
 		tableWriter.saveTable(tablePath, tableRows);
 	}
 
-	public static Table createTable(String databaseName, String tableName, List<Pair<String, String>> columnType) {
-		Table newTable = new Table(databaseName, tableName, columnType);
+	public static Table createNewTable(String tableName, List<Pair<String, String>> columnType) {
+		Table newTable = new Table(tableName, columnType);
 		return newTable;
+	}
+	
+	public static Table loadTable(String tableName) throws ParserConfigurationException, SAXException, IOException {
+		Table newTable = new Table(tableName);
+		return newTable;
+	}
+	
+	public String getTableName() {
+		return tableName;
 	}
 
 }
