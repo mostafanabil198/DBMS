@@ -1,11 +1,18 @@
 package eg.edu.alexu.csd.oop.db.cs51.database;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import eg.edu.alexu.csd.oop.db.cs51.Filters.Filter;
+import eg.edu.alexu.csd.oop.db.cs51.filesParsers.TableLoader;
+import eg.edu.alexu.csd.oop.db.cs51.filesParsers.TableWriter;
 import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 
 /**
@@ -13,21 +20,25 @@ import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
  *
  */
 public class Table {
-	private List<Map<String,String>> tableRows;
+	private List<Map<String, String>> tableRows;
 	private Schema schema;
 	private String tableName;
 	private String databaseName;
+	private File tablePath;
 
 	/**
 	 * Load table constructor
 	 * 
 	 * @param databaseName
 	 * @param tableName
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
 	 */
-	public Table(String databaseName, String tableName) {
+	public Table(String databaseName, String tableName) throws ParserConfigurationException, SAXException, IOException {
 		this.databaseName = databaseName;
 		this.tableName = tableName;
-		File tablePath = new File(databaseName + File.separator + tableName + ".xml");
+		this.tablePath = new File(databaseName + File.separator + tableName + ".xml");
 		this.tableRows = loadTableRows(tablePath);
 		schema = new Schema(tableName);
 	}
@@ -42,6 +53,7 @@ public class Table {
 	private Table(String databaseName, String tableName, List<Pair<String, String>> columnType) {
 		this.databaseName = databaseName;
 		this.tableName = tableName;
+		this.tablePath = new File(databaseName + File.separator + tableName + ".xml");
 		schema = Schema.createNewSchema(tableName, columnType);
 		this.tableRows = new ArrayList<>();
 	}
@@ -91,7 +103,8 @@ public class Table {
 	 * @return
 	 */
 	public int delete() {
-		return 1;
+		tableRows.clear();
+		return tableRows.size();
 	}
 
 	/**
@@ -143,10 +156,14 @@ public class Table {
 	 * 
 	 * @param path
 	 * @return
+	 * @throws IOException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
 	 */
-	private List<Map<String,String>> loadTableRows(File path) {
-		//
-		return null;
+	private List<Map<String, String>> loadTableRows(File path)
+			throws ParserConfigurationException, SAXException, IOException {
+		TableLoader tableLoader = new TableLoader();
+		return tableLoader.load(path);
 	}
 
 	/**
@@ -157,6 +174,12 @@ public class Table {
 	 * @param columnType
 	 * @return
 	 */
+
+	public void save() {
+		TableWriter tableWriter = new TableWriter();
+		tableWriter.saveTable(tablePath, tableRows);
+	}
+
 	public static Table createTable(String databaseName, String tableName, List<Pair<String, String>> columnType) {
 		Table newTable = new Table(databaseName, tableName, columnType);
 		return newTable;
