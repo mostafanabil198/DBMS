@@ -29,12 +29,14 @@ public class TableLoader {
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
 		doc.getDocumentElement().normalize();
+		//get all rows of the table 
 		NodeList nList = doc.getElementsByTagName("Row");
 		for (int temp = 0; temp < nList.getLength(); temp++) {
 			Node nNode = nList.item(temp);
 			Map<String, String> colValue = new HashMap<String, String>();
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) nNode;
+				//load columns with its value in the list as row of map
 				NodeList rowsContent = eElement.getChildNodes();
 				for (int i = 0; i < rowsContent.getLength(); i++) {
 					String key = rowsContent.item(i).getNodeName();
