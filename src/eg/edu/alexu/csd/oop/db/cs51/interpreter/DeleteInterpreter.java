@@ -1,8 +1,13 @@
 package eg.edu.alexu.csd.oop.db.cs51.interpreter;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
@@ -34,7 +39,7 @@ public class DeleteInterpreter implements Interpreter {
     }
 
     @Override
-	public Object accept(Visitor visit, String query) throws SQLException {
+	public Object accept(Visitor visit, String query) throws SQLException, ParserConfigurationException, SAXException, IOException {
 		// TODO Auto-generated method stub
 		return visit.visit(this, query);
 	}
