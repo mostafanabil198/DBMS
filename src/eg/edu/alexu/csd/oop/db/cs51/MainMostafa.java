@@ -30,8 +30,12 @@ import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 public class MainMostafa {
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, SQLException {
-		CurrentDatabase.getInstance().createDatabase("7a7a", false);
-		createTable();
+//		CurrentDatabase.getInstance().createDatabase("7a7a", false);
+//		createTable();
+		String s = "Create TABLE table_name1(column_name1 varchar, column_name2 int, column_name3 varchar)";
+		DBMS d = new DBMS();
+		d.createDatabase("sample" + System.getProperty("file.separator") + "mmm", false);
+		d.executeStructureQuery(s);
 
 	}
 

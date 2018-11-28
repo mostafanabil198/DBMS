@@ -14,7 +14,7 @@ import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class DropTableInterpreter implements Interpreter {
-	private static final String pattern = "DROP TABLE ([a-zA-Z_][a-zA-Z0-9_]*) *;*";
+	private static final String pattern = "DROP +TABLE +([a-zA-Z_][a-zA-Z0-9_]*) *;*";
 	private String tableName;
 
 	@Override

@@ -23,7 +23,7 @@ public class Cache {
 	}
 
 	private boolean validate(Table o, String tableName) {
-		return o.getTableName() == tableName;
+		return o.getTableName().equalsIgnoreCase(tableName);
 
 	}
 

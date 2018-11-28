@@ -13,8 +13,8 @@ import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class DeleteInterpreter implements Interpreter {
-    private static final String REGEX1 = "DELETE FROM ([a-zA-Z_][a-zA-Z0-9_]*) WHERE (.+) *;*";
-    private static final String REGEX2 = "DELETE FROM ([a-zA-Z_][a-zA-Z0-9_]*) *;*";
+    private static final String REGEX1 = "DELETE +FROM +([a-zA-Z_][a-zA-Z0-9_]*) +WHERE +(.+) *;*";
+    private static final String REGEX2 = "DELETE +FROM +([a-zA-Z_][a-zA-Z0-9_]*) *;*";
 
     @Override
     public QueryParameters interpret(String query) throws SQLException {

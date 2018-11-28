@@ -42,7 +42,7 @@ public class Schema {
     	for(int i = 0;i < columns.size(); i++){
     		validate = false;
     		for(int j = 0; j < columnType.size(); j++) {
-    			if(columns.get(i).equals(columnType.get(j).getKey())) {
+    			if(columns.get(i).equalsIgnoreCase(columnType.get(j).getKey())) {
     				validate = true;
     				break;
     			}
@@ -70,8 +70,8 @@ public class Schema {
                     cName = columnType.get(colNum).getKey();
                 } catch (Exception e) {
                 }
-    	        if(colName.equals(cName)) {
-    	            if(colType.equals("int")) {
+    	        if(colName.equalsIgnoreCase(cName)) {
+    	            if(colType.equalsIgnoreCase("int")) {
     	                try {
                             Integer.parseInt(colValue);
                         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class Schema {
     	Schema schema = new Schema();
     	schema.columnType = columnType;
     	schema.tableName = tableName;
-    	//schema.schemaFilePath = database path + tableName + ".dtd";
+    	schema.schemaFilePath = CurrentDatabase.getInstance().getPath() + System.getProperty("file.separator") + tableName + ".dtd";
         return schema;
     }
     
@@ -111,9 +111,9 @@ public class Schema {
         for(Map<String, String> row : rows) {
             Map<String, Object> newRow = new HashMap<String, Object>();
             for(String colName: row.keySet()) {
-                for(Pair colType: columnType) {
-                    if(colType.getKey().equals(colName)) {
-                        if(colType.getValue().equals("int")) {
+                for(Pair<String, String> colType: columnType) {
+                    if(colType.getKey().equalsIgnoreCase(colName)) {
+                        if(colType.getValue().equalsIgnoreCase("int")) {
                             try {
                                 newRow.put(colName, Integer.parseInt(row.get(colName)));
                             } catch (Exception e) {

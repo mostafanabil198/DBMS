@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class TerminalFilter implements Filter{
+public class EqualFilter implements Filter{
     private String colName;
     private String value;
     
-    public TerminalFilter(String colName, String value) {
+    public EqualFilter(String colName, String value) {
         this.colName = colName;
         this.value = value;
     }
@@ -17,7 +17,7 @@ public class TerminalFilter implements Filter{
     public List<Map<String, String>> filterTable(List<Map<String, String>> table) {
         List<Map<String, String>> filtered = new ArrayList<Map<String, String>>();
         for(Map<String, String> row : table) {
-            if(row.get(colName).equals(value)) {
+            if(row.get(colName).equalsIgnoreCase(value)) {
                 filtered.add(row);
             }
         }

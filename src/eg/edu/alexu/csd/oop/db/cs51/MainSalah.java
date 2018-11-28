@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import eg.edu.alexu.csd.oop.db.cs51.Filters.Filter;
-import eg.edu.alexu.csd.oop.db.cs51.Filters.TerminalFilter;
+import eg.edu.alexu.csd.oop.db.cs51.Filters.EqualFilter;
 import eg.edu.alexu.csd.oop.db.cs51.filesParsers.SchemaReader;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.InsertInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.Interpreter;

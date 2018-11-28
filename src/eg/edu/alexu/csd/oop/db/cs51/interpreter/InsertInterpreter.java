@@ -15,9 +15,9 @@ import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class InsertInterpreter implements Interpreter{
-    private static final String REGEX1 = "INSERT INTO ([a-zA-Z_][a-zA-Z0-9_]*) *\\( *(([a-zA-Z_][a-zA-Z0-9_]*) *(, *([a-zA-Z_][a-zA-Z0-9_]*))*) *\\) *"
+    private static final String REGEX1 = "INSERT +INTO +([a-zA-Z_][a-zA-Z0-9_]*) *\\( *(([a-zA-Z_][a-zA-Z0-9_]*) *(, *([a-zA-Z_][a-zA-Z0-9_]*))*) *\\) *"
             + "VALUES *\\( *((('[^']+')|(\\d+)|(\"[^\"]+\")) *(, *(('[^']+')|(\\d+)|(\"[^\"]+\")))*) *\\) *;*";
-    private static final String REGEX2 = "INSERT INTO ([a-zA-Z_][a-zA-Z0-9_]*) *"
+    private static final String REGEX2 = "INSERT +INTO +([a-zA-Z_][a-zA-Z0-9_]*) *"
             + "VALUES *\\( *((('[^']+')|(\\d+)|(\"[^\"]+\")) *(, *(('[^']+')|(\\d+)|(\"[^\"]+\")))*) *\\) *;*";
     @Override
     public QueryParameters interpret(String query) throws SQLException {

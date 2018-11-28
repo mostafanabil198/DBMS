@@ -57,6 +57,8 @@ public class Table {
 		this.tablePath = new File(databaseName + File.separator + tableName + ".xml");
 		schema = Schema.createNewSchema(tableName, columnType);
 		this.tableRows = new ArrayList<>();
+		save();
+		schema.save();
 	}
 
 	/**
@@ -159,16 +161,27 @@ public class Table {
 	 * @param columnValue
 	 * @param condition
 	 * @return
+	 * @throws SQLException 
 	 */
-	public int update(List<Pair<String, String>> columnValue, Filter condition) {
+	public int update(List<Pair<String, String>> columnValue, Filter condition) throws SQLException {
+		Map<String, String> updateRow = schema.validateColumnValueType(columnValue);
+		if (updateRow == null) {
+			throw new SQLException();
+		} else {
+			for (String k : updateRow.keySet()) {
+				if (updateRow.get(k) == "NULL") {
+					updateRow.remove(k);
+				}
+			}
 		List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
-		for (Map<String, String> updateRow : filteredTable) {
-			for (Pair<String, String> colValue : columnValue) {
-				updateRow.put(colValue.getKey(), colValue.getValue());
+		for (Map<String, String> row : filteredTable) {
+			for (String k : updateRow.keySet()) {
+				row.put(k, updateRow.get(k));
 			}
 		}
 
 		return filteredTable.size();
+		}
 	}
 
 	/**
@@ -235,22 +248,42 @@ public class Table {
 	public Object[][] select(List<String> columns, Filter condition) {
 		List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
 		List<Map<String, Object>> newFilteredTable = schema.parseTypesOf(filteredTable);
+		List<String> columnsOrder = schema.getColumns();
 		Object[][] selectedRows;
-		if (newFilteredTable.isEmpty()) {
-			return selectedRows = new Object[0][0];
-		} else {
-			selectedRows = new Object[newFilteredTable.size()][columns.size()];
-		}
-		int i = 0;
-		for (Map<String, Object> selectedRow : newFilteredTable) {
-			int j = 0;
-			for (String key : columns) {
-				selectedRows[i][j] = selectedRow.get(key);
-				j++;
+		if(columns.size()==1 && columns.get(0).equals("*")) {
+			if (newFilteredTable.isEmpty()) {
+				return selectedRows = new Object[0][0];
+			} else {
+				selectedRows = new Object[newFilteredTable.size()][newFilteredTable.get(0).size()];
 			}
-			i++;
+			int i = 0;
+			for (Map<String, Object> selectedRow : newFilteredTable) {
+				int j = 0;
+				for (String key : columnsOrder) {
+					selectedRows[i][j] = selectedRow.get(key);
+					j++;
+				}
+				i++;
+			}
+			return selectedRows;
+		}else {
+			 selectedRows = new Object[newFilteredTable.size()][columns.size()];
+			if (!newFilteredTable.isEmpty()) {
+				for (int i = 0; i < newFilteredTable.size(); i++) {
+					for (int j = 0; j < columns.size(); j++) {
+
+						 selectedRows[i][j] = newFilteredTable.get(i).get(columns.get(j));
+					}
+				}
+				return  selectedRows;
+			} else {
+				return selectedRows=new Object[0][0];
+
+			}
+			
+			
 		}
-		return selectedRows;
+		
 
 	}
 

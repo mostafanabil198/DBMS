@@ -13,7 +13,7 @@ import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class CreateDBInterpreter implements Interpreter {
-	private static final String CREATE_DB_PATTERN = "create database ([A-Za-z_][A-Za-z0-9_]*) *;*";
+	private static final String CREATE_DB_PATTERN = "create +database +([A-Za-z_][A-Za-z0-9_]*) *;*";
 
 	@Override
 	public QueryParameters interpret(String query) throws SQLException {

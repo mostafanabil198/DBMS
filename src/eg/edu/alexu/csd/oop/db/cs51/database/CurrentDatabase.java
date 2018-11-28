@@ -15,7 +15,8 @@ public class CurrentDatabase {
 	private List<String> tableNames;
 	private Cache tablesCache;
 
-	private CurrentDatabase() {}
+	private CurrentDatabase() {
+	}
 
 	public static CurrentDatabase getInstance() {
 		if (obj == null) {
@@ -30,17 +31,17 @@ public class CurrentDatabase {
 	}
 
 	public boolean createDatabase(String path, boolean dropIfExist) {
-	    if(this.tablesCache != null) {
-	        this.tablesCache.shutdownCache();
-	    }
-	    tablesCache = new Cache();
+		if (this.tablesCache != null) {
+			this.tablesCache.shutdownCache();
+		}
+		tablesCache = new Cache();
 		this.databasePath = path;
 		tableNames = new ArrayList<String>();
 		File file = new File(databasePath);
 		if (file.exists()) {
 			if (dropIfExist) {
 				for (String dir : file.list()) {
-					File f = new File(dir);
+					File f = new File(path + System.getProperty("file.separator") + dir);
 					f.delete();
 				}
 			} else {
@@ -52,55 +53,57 @@ public class CurrentDatabase {
 				}
 			}
 		} else {
-			file.mkdir();
+			file.mkdirs();
 		}
 		return true;
 	}
 
 	public boolean dropDatabase(String path) {
-	    File file = new File(path);
-	    if(file.exists()) {
-	        for (String dir : file.list()) {
-                File f = new File(dir);
-                f.delete();
-            }
-	        file.delete();
-	        tablesCache = null;
-	        obj = null;
-	        return true;
-	    } else {
-	        return false;
-	    }
+		File file = new File(path);
+		if (file.exists()) {
+			for (String dir : file.list()) {
+				File f = new File(dir);
+				f.delete();
+			}
+			file.delete();
+			tablesCache = null;
+			obj = null;
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
+
 	public boolean createNewTable(String tableName) {
-	    if(tableNames.contains(tableName)) return false;
+		if (tableNames.contains(tableName))
+			return false;
 		tableNames.add(tableName);
 		return true;
 	}
 
 	public Table getTableFromCache(String tableName) throws ParserConfigurationException, SAXException, IOException {
-	    if(!tableNames.contains(tableName)) return null;
+		if (!tableNames.contains(tableName))
+			return null;
 		return tablesCache.takeOut(tableName);
 	}
 
 	public void cacheTable(Table table) {
-	    tablesCache.takeIn(table);
+		tablesCache.takeIn(table);
 	}
 
 	public String getPath() {
 		return this.databasePath;
 	}
-	
+
 	public boolean dropTable(String tableName) throws ParserConfigurationException, SAXException, IOException {
-	    if(tableNames.contains(tableName)) {
-	        Table table = this.tablesCache.removeFromCache(tableName);
-	        tableNames.remove(tableName);
-	        table.drop();
-	        table = null;
-	        return true;
-	    }
-	    return false;
+		if (tableNames.contains(tableName)) {
+			Table table = this.tablesCache.removeFromCache(tableName);
+			tableNames.remove(tableName);
+			table.drop();
+			table = null;
+			return true;
+		}
+		return false;
 	}
-	
+
 }
