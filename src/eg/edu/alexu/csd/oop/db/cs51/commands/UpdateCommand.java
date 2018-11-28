@@ -19,7 +19,6 @@ public class UpdateCommand implements Command{
 
 	@Override
 	public Object execute(QueryParameters qp) throws ParserConfigurationException, SAXException, IOException, SQLException {
-		// TODO Auto-generated method stub
 		String tableName = qp.getTableName();
 		String condition = qp.getCondition();
 		int updated;
@@ -31,7 +30,7 @@ public class UpdateCommand implements Command{
 		if(condition.equals("*")) {
 			updated = t.update(columnsValue);
 		} else {
-			Filter f = (Filter) new FilterFactory(condition);
+			Filter f = (Filter) new FilterFactory(condition).getFilter();
 			updated = t.update(columnsValue, f);
 		}
 		CurrentDatabase.getInstance().cacheTable(t);
