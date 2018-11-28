@@ -195,9 +195,7 @@ public class Table {
 		if (schema.validateColumnNames(columns)) {
 			List<Map<String, Object>> newTableRows = schema.parseTypesOf(tableRows);
 			List<String> columnsOrder = schema.getColumns();
-
-			if (columns.size() == 1 && columns.get(0) == "*") {
-
+			if (columns.size() == 1 && columns.get(0).equals("*")) {
 				if (!newTableRows.isEmpty()) {
 
 					Object[][] allTable = new Object[newTableRows.size()][newTableRows.get(0).size()];

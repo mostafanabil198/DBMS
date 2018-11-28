@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import eg.edu.alexu.csd.oop.db.Database;
+import eg.edu.alexu.csd.oop.db.cs51.database.CurrentDatabase;
 import eg.edu.alexu.csd.oop.test.TestRunner;
 
 public class SmokeTest {
@@ -93,6 +94,7 @@ public class SmokeTest {
     public void testCreateTableWithoutDB() {
     	Database db = (Database)TestRunner.getImplementationInstanceForInterface(Database.class);
         try {
+        	System.out.println(CurrentDatabase.getInstance().getPath());
             db.executeStructureQuery("CREATE TABLE table_name2(column_name1 varchar, column_name2 int, column_name3 varchar)");
             Assert.fail("Table created without database!!");
         } catch (Exception e) {

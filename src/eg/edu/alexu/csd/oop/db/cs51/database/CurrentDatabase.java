@@ -106,4 +106,10 @@ public class CurrentDatabase {
 		return false;
 	}
 
+	public void clear() {
+		this.databasePath = null;
+		this.tableNames = null;
+		this.obj = null;
+		this.tablesCache = null;
+	}
 }
