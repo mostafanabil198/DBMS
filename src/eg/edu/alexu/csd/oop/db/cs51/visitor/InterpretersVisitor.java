@@ -1,7 +1,16 @@
 package eg.edu.alexu.csd.oop.db.cs51.visitor;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.commands.Command;
+import eg.edu.alexu.csd.oop.db.cs51.commands.CreateTableCommand;
+import eg.edu.alexu.csd.oop.db.cs51.commands.DeleteCommand;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateDBInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DeleteInterpreter;
@@ -13,17 +22,19 @@ import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 
 public class InterpretersVisitor implements Visitor {
 
-
 	@Override
-	public Object visit(CreateTableInterpreter createTableInterpreter, String query) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Object visit(CreateTableInterpreter createTableInterpreter, String query)
+			throws SQLException, ParserConfigurationException, SAXException, IOException {
+		QueryParameters paramaeters = createTableInterpreter.interpret(query);
+		Command createTableCommand = new CreateTableCommand();
+		return createTableCommand.execute(paramaeters);
 	}
 
 	@Override
-	public Object visit(DeleteInterpreter deleteInterpreter, String query) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Object visit(DeleteInterpreter deleteInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException {
+		QueryParameters paramaeters = deleteInterpreter.interpret(query);
+		Command deleteCommand = new DeleteCommand();
+		return deleteCommand.execute(paramaeters);
 	}
 
 	@Override

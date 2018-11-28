@@ -1,6 +1,11 @@
 package eg.edu.alexu.csd.oop.db.cs51.visitor;
 
+import java.io.IOException;
 import java.sql.SQLException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateDBInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
@@ -12,9 +17,9 @@ import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 
 public interface Visitor {
-	public Object visit(CreateTableInterpreter createTableInterpreter, String query) throws SQLException;
+	public Object visit(CreateTableInterpreter createTableInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
-	public Object visit(DeleteInterpreter deleteInterpreter, String query) throws SQLException;
+	public Object visit(DeleteInterpreter deleteInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
 	public Object visit(DropDatabaseInterpreter databaseInterpreter, String query) throws SQLException;
 
