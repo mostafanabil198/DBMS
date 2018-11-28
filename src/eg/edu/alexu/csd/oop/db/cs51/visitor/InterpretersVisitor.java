@@ -1,7 +1,16 @@
 package eg.edu.alexu.csd.oop.db.cs51.visitor;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.commands.Command;
+import eg.edu.alexu.csd.oop.db.cs51.commands.InsertCommand;
+import eg.edu.alexu.csd.oop.db.cs51.commands.SelectCommand;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateDBInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.CreateTableInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.DeleteInterpreter;
@@ -39,16 +48,19 @@ public class InterpretersVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(InsertInterpreter insertInterpreter, String query) throws SQLException {
+	public Object visit(InsertInterpreter insertInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException {
 		// TODO Auto-generated method stub
-		return null;
+		QueryParameters qp = insertInterpreter.interpret(query);
+		Command insert = new InsertCommand();
+		return insert.execute(qp);
 	}
 
 	@Override
-	public Object visit(SelectInterpreter selectInterpreter, String query) throws SQLException {
+	public Object visit(SelectInterpreter selectInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		QueryParameters qp = selectInterpreter.interpret(query);
+		Command select = new SelectCommand();
+		return select.execute(qp);	}
 
 	@Override
 	public Object visit(UpdateInterpreter updateInterprater, String query) throws SQLException {
