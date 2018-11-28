@@ -80,6 +80,7 @@ public class CurrentDatabase {
 	}
 
 	public Table getTableFromCache(String tableName) throws ParserConfigurationException, SAXException, IOException {
+	    if(!tableNames.contains(tableName)) return null;
 		return tablesCache.takeOut(tableName);
 	}
 
