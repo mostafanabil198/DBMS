@@ -17,18 +17,18 @@ import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 
 public interface Visitor {
-	public Object visit(CreateTableInterpreter createTableInterpreter, String query) throws SQLException;
+	public Object visit(CreateTableInterpreter createTableInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
-	public Object visit(DeleteInterpreter deleteInterpreter, String query) throws SQLException;
+	public Object visit(DeleteInterpreter deleteInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
-	public Object visit(DropDatabaseInterpreter databaseInterpreter, String query) throws SQLException;
+	public Object visit(DropDatabaseInterpreter dropDatabaseInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
-	public Object visit(DropTableInterpreter dropTableInterpreter, String query) throws SQLException;
+	public Object visit(DropTableInterpreter dropTableInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
 	public Object visit(InsertInterpreter insertInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
 	public Object visit(SelectInterpreter selectInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
-	public Object visit(UpdateInterpreter updateInterprater, String query) throws SQLException;
+	public Object visit(UpdateInterpreter updateInterprater, String query) throws SQLException, ParserConfigurationException, SAXException, IOException;
 
 }
