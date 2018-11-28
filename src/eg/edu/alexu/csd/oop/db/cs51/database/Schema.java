@@ -105,5 +105,29 @@ public class Schema {
     	//schema.schemaFilePath = database path + tableName + ".dtd";
         return schema;
     }
+    
+    public List<Map<String, Object>> parseTypesOf(List<Map<String, String>> rows){
+        List<Map<String, Object>> parsed = new ArrayList<Map<String, Object>>();
+        for(Map<String, String> row : rows) {
+            Map<String, Object> newRow = new HashMap<String, Object>();
+            for(String colName: row.keySet()) {
+                for(Pair colType: columnType) {
+                    if(colType.getKey().equals(colName)) {
+                        if(colType.getValue().equals("int")) {
+                            try {
+                                newRow.put(colName, Integer.parseInt(row.get(colName)));
+                            } catch (Exception e) {
+                            }
+                        } else {
+                            newRow.put(colName, row.get(colName));
+                        }
+                        break;
+                    }
+                }
+            }
+            parsed.add(newRow);
+        }
+        return parsed;
+    }
 
 }
