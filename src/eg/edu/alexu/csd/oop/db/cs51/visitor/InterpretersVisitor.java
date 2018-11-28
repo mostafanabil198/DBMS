@@ -13,11 +13,6 @@ import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 
 public class InterpretersVisitor implements Visitor {
 
-	@Override
-	public Object visit(CreateDBInterpreter createDBInterpereter, String query) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Object visit(CreateTableInterpreter createTableInterpreter, String query) throws SQLException {

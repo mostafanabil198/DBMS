@@ -12,8 +12,6 @@ import eg.edu.alexu.csd.oop.db.cs51.interpreter.SelectInterpreter;
 import eg.edu.alexu.csd.oop.db.cs51.interpreter.UpdateInterpreter;
 
 public interface Visitor {
-	public Object visit(CreateDBInterpreter createDBInterpereter, String query) throws SQLException;
-
 	public Object visit(CreateTableInterpreter createTableInterpreter, String query) throws SQLException;
 
 	public Object visit(DeleteInterpreter deleteInterpreter, String query) throws SQLException;
