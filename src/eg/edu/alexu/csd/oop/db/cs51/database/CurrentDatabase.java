@@ -58,7 +58,7 @@ public class CurrentDatabase {
 	}
 
 	public boolean dropDatabase(String path) {
-	    File file = new File(databasePath);
+	    File file = new File(path);
 	    if(file.exists()) {
 	        for (String dir : file.list()) {
                 File f = new File(dir);
@@ -96,7 +96,9 @@ public class CurrentDatabase {
 	    if(tableNames.contains(tableName)) {
 	        Table table = this.tablesCache.removeFromCache(tableName);
 	        tableNames.remove(tableName);
-	        return table.drop();
+	        table.drop();
+	        table = null;
+	        return true;
 	    }
 	    return false;
 	}

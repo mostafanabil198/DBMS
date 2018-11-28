@@ -20,7 +20,6 @@ public class SelectCommand implements Command {
 
 	@Override
 	public Object execute(QueryParameters qp) throws ParserConfigurationException, SAXException, IOException, SQLException {
-		// TODO Auto-generated method stub
 		String tableName = qp.getTableName();
 		String condition = qp.getCondition();
 		Object[][] selected;
@@ -33,7 +32,7 @@ public class SelectCommand implements Command {
 		if(condition.equals("*")) {
 			selected = t.select(columns);
 		} else {
-			Filter f = (Filter) new FilterFactory(condition);
+			Filter f = (Filter) new FilterFactory(condition).getFilter();
 			selected = t.select(columns, f);
 		}
 		CurrentDatabase.getInstance().cacheTable(t);
