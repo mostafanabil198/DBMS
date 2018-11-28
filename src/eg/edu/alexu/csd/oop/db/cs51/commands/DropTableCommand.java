@@ -17,8 +17,7 @@ public class DropTableCommand implements Command{
 	public Object execute(QueryParameters qp) throws ParserConfigurationException, SAXException, IOException, SQLException {
 		// TODO Auto-generated method stub
 		String tableName = qp.getTableName();
-		CurrentDatabase.getInstance().;
-		return t.drop();
+		return CurrentDatabase.getInstance().dropTable(tableName);
 	}
 	
 
