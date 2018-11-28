@@ -73,8 +73,10 @@ public class CurrentDatabase {
 	    }
 	}
 	
-	public void createNewTable(String tableName) {
+	public boolean createNewTable(String tableName) {
+	    if(tableNames.contains(tableName)) return false;
 		tableNames.add(tableName);
+		return true;
 	}
 
 	public Table getTableFromCache(String tableName) throws ParserConfigurationException, SAXException, IOException {
@@ -82,12 +84,20 @@ public class CurrentDatabase {
 	}
 
 	public void cacheTable(Table table) {
-		tablesCache.takeIn(table);
+	    tablesCache.takeIn(table);
 	}
 
 	public String getPath() {
 		return this.databasePath;
 	}
 	
+	public boolean dropTable(String tableName) {
+	    if(tableNames.contains(tableName)) {
+	        Table table = this.tablesCache.removeFromCache(tableName);
+	        tableNames.remove(tableName);
+	        return table.drop();
+	    }
+	    return false;
+	}
 	
 }
