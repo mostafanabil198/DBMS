@@ -74,7 +74,6 @@ public class Table {
 			tableRows.add(newRow);
 			return 1;
 		}
-
 	}
 
 	/**
@@ -271,12 +270,12 @@ public class Table {
 		Table newTable = new Table(tableName, columnType);
 		return newTable;
 	}
-	
+
 	public static Table loadTable(String tableName) throws ParserConfigurationException, SAXException, IOException {
 		Table newTable = new Table(tableName);
 		return newTable;
 	}
-	
+
 	public String getTableName() {
 		return tableName;
 	}
