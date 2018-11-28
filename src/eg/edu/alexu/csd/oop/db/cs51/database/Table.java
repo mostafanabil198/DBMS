@@ -93,14 +93,12 @@ public class Table {
 	 * 
 	 * @return
 	 */
-	public boolean drop() {
+	public void drop() {
 		File schemaDtd = new File(databaseName + System.getProperty("file.separator") + tableName + ".dtd");
 		if (tablePath.exists()) {
 			tablePath.delete();
 			schemaDtd.delete();
-			return true;
 		}
-		return false;
 	}
 
 	/**
