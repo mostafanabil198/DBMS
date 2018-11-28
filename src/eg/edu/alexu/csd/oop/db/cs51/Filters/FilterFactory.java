@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FilterFactory {
-    private static final String TERMINAL_REGEX = "(.+) *= *(('.+')|(\".+\"))";
+    private static final String TERMINAL_REGEX = "([A-Za-z_][A-Za-z0-9_]*) *= *(('[^']+')|(\"[^\"]+\")|(\\d+))";
     private String condition;
     
     public FilterFactory(String condition) {
@@ -17,7 +17,13 @@ public class FilterFactory {
         Matcher matcher = pattern.matcher(condition);
         if(matcher.matches()) {
             String colName = matcher.group(1);
-            String value = matcher.group(2).substring(1, matcher.group(2).length()-1);
+            String value;
+            if(colName.charAt(0) == '\'' || colName.charAt(0) == '"') {
+            	value= matcher.group(2).substring(1, matcher.group(2).length()-1);	
+            } else {
+            	value = matcher.group(2);
+            }
+            
             Filter filter = new TerminalFilter(colName, value);
             return filter;
         } else {
