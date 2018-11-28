@@ -14,7 +14,7 @@ import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 public class SchemaReader {
     private static final String TABLE_NAME_REGEX = "<!DOCTYPE ([a-zA-Z_][a-zA-Z0-9_]*)";
     private static final String TABLE_ELEMENTS_REGEX = "<!ELEMENT ([a-zA-Z_][a-zA-Z0-9_]*) \\((([a-zA-Z_][a-zA-Z0-9_]*)(, (([a-zA-Z_][a-zA-Z0-9_]*)))*)\\)>";
-    private static final String ELEMENT_REGEX = "<!ELEMENT ([a-zA-Z_][a-zA-Z0-9_]*) \\(((int)|(string))\\)>";
+    private static final String ELEMENT_REGEX = "<!ELEMENT ([a-zA-Z_][a-zA-Z0-9_]*) \\(((int)|(varchar))\\)>";
     
     public static List<Pair<String, String>> readSchema(String pathToSchema){
         File file = new File(pathToSchema);

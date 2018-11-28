@@ -15,9 +15,7 @@ public class CurrentDatabase {
 	private List<String> tableNames;
 	private Cache tablesCache;
 
-	private CurrentDatabase() {
-		tablesCache = new Cache();
-	}
+	private CurrentDatabase() {}
 
 	public static CurrentDatabase getInstance() {
 		if (obj == null) {
@@ -31,7 +29,11 @@ public class CurrentDatabase {
 		return obj;
 	}
 
-	public void createDatabase(String path, boolean dropIfExist) {
+	public boolean createDatabase(String path, boolean dropIfExist) {
+	    if(this.tablesCache != null) {
+	        this.tablesCache.shutdownCache();
+	    }
+	    tablesCache = new Cache();
 		this.databasePath = path;
 		tableNames = new ArrayList<String>();
 		File file = new File(databasePath);
@@ -52,22 +54,51 @@ public class CurrentDatabase {
 		} else {
 			file.mkdir();
 		}
-
+		return true;
 	}
 
-	public void createNewTable(String tableName) {
+	public boolean dropDatabase(String path) {
+	    File file = new File(databasePath);
+	    if(file.exists()) {
+	        for (String dir : file.list()) {
+                File f = new File(dir);
+                f.delete();
+            }
+	        file.delete();
+	        tablesCache = null;
+	        obj = null;
+	        return true;
+	    } else {
+	        return false;
+	    }
+	}
+	
+	public boolean createNewTable(String tableName) {
+	    if(tableNames.contains(tableName)) return false;
 		tableNames.add(tableName);
+		return true;
 	}
 
 	public Table getTableFromCache(String tableName) throws ParserConfigurationException, SAXException, IOException {
+	    if(!tableNames.contains(tableName)) return null;
 		return tablesCache.takeOut(tableName);
 	}
 
 	public void cacheTable(Table table) {
-		tablesCache.takeIn(table);
+	    tablesCache.takeIn(table);
 	}
 
 	public String getPath() {
 		return this.databasePath;
 	}
+	
+	public boolean dropTable(String tableName) {
+	    if(tableNames.contains(tableName)) {
+	        Table table = this.tablesCache.removeFromCache(tableName);
+	        tableNames.remove(tableName);
+	        return table.drop();
+	    }
+	    return false;
+	}
+	
 }
