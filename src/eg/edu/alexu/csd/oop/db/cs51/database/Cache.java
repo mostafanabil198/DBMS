@@ -30,14 +30,14 @@ public class Cache {
 	private void dead(Table o) {
 		o.save();
 	}
-	
+
 	public void shutdownCache() {
 		if (unlock.size() > 0) {
 			Enumeration<Table> e = unlock.keys();
 			while (e.hasMoreElements()) {
 				Table t = e.nextElement();
-					unlock.remove(t);
-					dead(t);
+				unlock.remove(t);
+				dead(t);
 			}
 		}
 	}
@@ -73,5 +73,20 @@ public class Cache {
 		lock.remove(t);
 		unlock.put(t, System.currentTimeMillis());
 
+	}
+
+	public Table removeFromCache(String tableName) throws ParserConfigurationException, SAXException, IOException {
+		if (unlock.size() > 0) {
+			Enumeration<Table> e = unlock.keys();
+			while (e.hasMoreElements()) {
+				Table t = e.nextElement();
+				if (validate(t, tableName)) {
+					unlock.remove(t);
+					return t;
+
+				}
+			}
+		}
+		return create(tableName);
 	}
 }

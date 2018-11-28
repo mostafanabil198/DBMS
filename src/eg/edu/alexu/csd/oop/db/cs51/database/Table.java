@@ -66,7 +66,7 @@ public class Table {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int insertUnOrdered(List<Pair<String, String>> columnValue) throws SQLException {
+	public int insert(List<Pair<String, String>> columnValue) throws SQLException {
 		Map<String, String> newRow = schema.validateColumnValueType(columnValue);
 		if (newRow == null) {
 			throw new SQLException();
@@ -94,7 +94,6 @@ public class Table {
 	 * @return
 	 */
 	public boolean drop() {
-		// --------------------- drop in db and cache ----------------------------/
 		File schemaDtd = new File(databaseName + System.getProperty("file.separator") + tableName + ".dtd");
 		if (tablePath.exists()) {
 			tablePath.delete();
@@ -111,7 +110,11 @@ public class Table {
 	 * @return
 	 */
 	public int delete(Filter condition) {
-		return 1;
+		List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
+		for (Map<String, String> deletedRow : filteredTable) {
+			tableRows.remove(deletedRow);
+		}
+		return filteredTable.size();
 	}
 
 	/**
@@ -160,7 +163,14 @@ public class Table {
 	 * @return
 	 */
 	public int update(List<Pair<String, String>> columnValue, Filter condition) {
-		return 1;
+		List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
+		for (Map<String, String> updateRow : filteredTable) {
+			for (Pair<String, String> colValue : columnValue) {
+				updateRow.put(colValue.getKey(), colValue.getValue());
+			}
+		}
+
+		return filteredTable.size();
 	}
 
 	/**
@@ -172,23 +182,18 @@ public class Table {
 	 */
 	public Object[][] select(List<String> columns) throws SQLException {
 		if (schema.validateColumnNames(columns)) {
-
+			List<Map<String, Object>> newTableRows = schema.parseTypesOf(tableRows);
 			List<String> columnsOrder = schema.getColumns();
 
 			if (columns.size() == 1 && columns.get(0) == "*") {
 
-				if (!tableRows.isEmpty()) {
+				if (!newTableRows.isEmpty()) {
 
-					Object[][] allTable = new Object[tableRows.size()][tableRows.get(0).size()];
-					for (int i = 0; i < tableRows.size(); i++) {
+					Object[][] allTable = new Object[newTableRows.size()][newTableRows.get(0).size()];
+					for (int i = 0; i < newTableRows.size(); i++) {
 
 						for (int j = 0; j < columnsOrder.size(); j++) {
-
-							try {
-								allTable[i][j] = Integer.parseInt(tableRows.get(i).get(columnsOrder.get(j)));
-							} catch (Exception e) {
-								allTable[i][j] = tableRows.get(i).get(columnsOrder.get(j));
-							}
+							allTable[i][j] = newTableRows.get(i).get(columnsOrder.get(j));
 						}
 					}
 					return allTable;
@@ -199,15 +204,12 @@ public class Table {
 			}
 
 			else {
-				Object[][] allTable = new Object[tableRows.size()][columns.size()];
-				if (!tableRows.isEmpty()) {
-					for (int i = 0; i < tableRows.size(); i++) {
+				Object[][] allTable = new Object[newTableRows.size()][columns.size()];
+				if (!newTableRows.isEmpty()) {
+					for (int i = 0; i < newTableRows.size(); i++) {
 						for (int j = 0; j < columns.size(); j++) {
-							try {
-								allTable[i][j] = Integer.parseInt(tableRows.get(i).get(columns.get(j)));
-							} catch (Exception e) {
-								allTable[i][j] = tableRows.get(i).get(columns.get(j));
-							}
+
+							allTable[i][j] = newTableRows.get(i).get(columns.get(j));
 						}
 					}
 					return allTable;
@@ -233,7 +235,24 @@ public class Table {
 	 * @return
 	 */
 	public Object[][] select(List<String> columns, Filter condition) {
-		return null;
+		List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
+		List<Map<String, Object>> newFilteredTable = schema.parseTypesOf(filteredTable);
+		Object[][] selectedRows;
+		if (newFilteredTable.isEmpty()) {
+			return selectedRows = new Object[0][0];
+		} else {
+			selectedRows = new Object[newFilteredTable.size()][columns.size()];
+		}
+		int i = 0;
+		for (Map<String, Object> selectedRow : newFilteredTable) {
+			int j = 0;
+			for (String key : columns) {
+				selectedRows[i][j] = selectedRow.get(key);
+				j++;
+			}
+			i++;
+		}
+		return selectedRows;
 
 	}
 
