@@ -92,7 +92,7 @@ public class CurrentDatabase {
 		return this.databasePath;
 	}
 	
-	public boolean dropTable(String tableName) {
+	public boolean dropTable(String tableName) throws ParserConfigurationException, SAXException, IOException {
 	    if(tableNames.contains(tableName)) {
 	        Table table = this.tablesCache.removeFromCache(tableName);
 	        tableNames.remove(tableName);
