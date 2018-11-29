@@ -1,0 +1,7 @@
+<!DOCTYPE table_name7
+[
+<!ELEMENT table_name7 (column_name1, column_name2, column_name3)>
+<!ELEMENT column_name1 (varchar)>
+<!ELEMENT column_name2 (int)>
+<!ELEMENT column_name3 (varchar)>
+]>
