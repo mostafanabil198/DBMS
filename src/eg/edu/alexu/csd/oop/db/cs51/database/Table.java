@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -108,8 +109,9 @@ public class Table {
 	 * 
 	 * @param condition
 	 * @return
+	 * @throws SQLException 
 	 */
-	public int delete(Filter condition) {
+	public int delete(Filter condition) throws SQLException {
 		List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
 		for (Map<String, String> deletedRow : filteredTable) {
 			tableRows.remove(deletedRow);
@@ -140,11 +142,24 @@ public class Table {
 		if (updateRow == null) {
 			throw new SQLException();
 		} else {
-			for (String k : updateRow.keySet()) {
-				if (updateRow.get(k) == "NULL") {
-					updateRow.remove(k);
+//			for (String k : updateRow.keySet()) {
+//				if (updateRow.get(k) == "NULL") {
+//					updateRow.remove(k);
+//				}
+//			}
+			Set<String> keySet = updateRow.keySet();
+			String[] keySetArr = new String[keySet.size()];
+			int i = 0;
+			for(String s : keySet) {
+				keySetArr[i] = s;
+				i++;
+			}
+			for (i = 0; i < keySetArr.length; i++) {
+				if(updateRow.get(keySetArr[i]) == "NULL") {
+					updateRow.remove(keySetArr[i]);
 				}
 			}
+			
 			for (Map<String, String> row : tableRows) {
 				for (String k : updateRow.keySet()) {
 					row.put(k, updateRow.get(k));
@@ -161,26 +176,38 @@ public class Table {
 	 * @param columnValue
 	 * @param condition
 	 * @return
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public int update(List<Pair<String, String>> columnValue, Filter condition) throws SQLException {
 		Map<String, String> updateRow = schema.validateColumnValueType(columnValue);
 		if (updateRow == null) {
 			throw new SQLException();
 		} else {
-			for (String k : updateRow.keySet()) {
-				if (updateRow.get(k) == "NULL") {
-					updateRow.remove(k);
+//			for (String k : updateRow.keySet()) {
+//				if (updateRow.get(k) == "NULL") {
+//					updateRow.remove(k);
+//				}
+//			}
+			Set<String> keySet = updateRow.keySet();
+			String[] keySetArr = new String[keySet.size()];
+			int i = 0;
+			for(String s : keySet) {
+				keySetArr[i] = s;
+				i++;
+			}
+			for (i = 0; i < keySetArr.length; i++) {
+				if(updateRow.get(keySetArr[i]) == "NULL") {
+					updateRow.remove(keySetArr[i]);
 				}
 			}
-		List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
-		for (Map<String, String> row : filteredTable) {
-			for (String k : updateRow.keySet()) {
-				row.put(k, updateRow.get(k));
+			List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
+			for (Map<String, String> row : filteredTable) {
+				for (String k : updateRow.keySet()) {
+					row.put(k, updateRow.get(k));
+				}
 			}
-		}
 
-		return filteredTable.size();
+			return filteredTable.size();
 		}
 	}
 
@@ -242,13 +269,14 @@ public class Table {
 	 * @param columns
 	 * @param condition
 	 * @return
+	 * @throws SQLException 
 	 */
-	public Object[][] select(List<String> columns, Filter condition) {
+	public Object[][] select(List<String> columns, Filter condition) throws SQLException {
 		List<Map<String, String>> filteredTable = condition.filterTable(tableRows);
 		List<Map<String, Object>> newFilteredTable = schema.parseTypesOf(filteredTable);
 		List<String> columnsOrder = schema.getColumns();
 		Object[][] selectedRows;
-		if(columns.size()==1 && columns.get(0).equals("*")) {
+		if (columns.size() == 1 && columns.get(0).equals("*")) {
 			if (newFilteredTable.isEmpty()) {
 				return selectedRows = new Object[0][0];
 			} else {
@@ -264,24 +292,22 @@ public class Table {
 				i++;
 			}
 			return selectedRows;
-		}else {
-			 selectedRows = new Object[newFilteredTable.size()][columns.size()];
+		} else {
+			selectedRows = new Object[newFilteredTable.size()][columns.size()];
 			if (!newFilteredTable.isEmpty()) {
 				for (int i = 0; i < newFilteredTable.size(); i++) {
 					for (int j = 0; j < columns.size(); j++) {
 
-						 selectedRows[i][j] = newFilteredTable.get(i).get(columns.get(j));
+						selectedRows[i][j] = newFilteredTable.get(i).get(columns.get(j));
 					}
 				}
-				return  selectedRows;
+				return selectedRows;
 			} else {
-				return selectedRows=new Object[0][0];
+				return selectedRows = new Object[0][0];
 
 			}
-			
-			
+
 		}
-		
 
 	}
 

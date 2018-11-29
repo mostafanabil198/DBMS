@@ -4,7 +4,9 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +23,8 @@ import javax.swing.JScrollBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class DBMSGui extends JFrame {
 
@@ -54,6 +58,16 @@ public class DBMSGui extends JFrame {
 	 * Create the frame.
 	 */
 	public DBMSGui() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				CurrentDatabase.getInstance().shutdown();
+			}
+			@Override
+			public void windowClosing(WindowEvent e) {
+				CurrentDatabase.getInstance().shutdown();
+			}
+		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 977, 752);
 		contentPane = new JPanel();
@@ -68,11 +82,24 @@ public class DBMSGui extends JFrame {
 		query.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					try {
 						Object result = outerFactory.getOutput(query.getText().trim(), dbms);
+						if (query.getText().trim().toLowerCase().startsWith("select")) {
+							Object[][] resultt = (Object[][]) result;
+							results.setText(query.getText() + "\n\n" );
+							for (Object[] row : resultt) {
+								for (Object col : row) {
+									results.setText(results.getText() + col + "  ");
+								}
+								results.setText(results.getText() + "\n");
+							}
+
+						} else {
+							results.setText(query.getText() + "\n\n" + result);
+						}
 						query.setText("");
-						results.setText(results.getText() + "\n" + result);
+
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						results.setText(results.getText() + "\n" + "Wrong Query! Syntax error");
@@ -83,27 +110,15 @@ public class DBMSGui extends JFrame {
 		query.setBounds(187, 44, 749, 47);
 		contentPane.add(query);
 		query.setColumns(10);
-		
+
 		JLabel lblEnterQuery = new JLabel("Enter Query:");
 		lblEnterQuery.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 16));
 		lblEnterQuery.setBounds(53, 51, 119, 30);
 		contentPane.add(lblEnterQuery);
-		
 
-		
 		JLabel lblResults = new JLabel("Results:");
 		lblResults.setFont(new Font("Arial Rounded MT Bold", Font.BOLD, 16));
 		lblResults.setBounds(53, 425, 119, 30);
 		contentPane.add(lblResults);
-		
-		JButton btnX = new JButton("x");
-		btnX.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				CurrentDatabase.getInstance().shutdown();
-				System.exit(0);
-			}
-		});
-		btnX.setBounds(12, 13, 39, 30);
-		contentPane.add(btnX);
 	}
 }
