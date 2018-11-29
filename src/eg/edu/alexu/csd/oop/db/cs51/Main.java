@@ -14,8 +14,6 @@ public class Main {
 		gui.initialize(dbms, outerFactory);
 		gui.setVisible(true);
 		gui.setLocationRelativeTo(null);
-		
-
 	}
 
 }
