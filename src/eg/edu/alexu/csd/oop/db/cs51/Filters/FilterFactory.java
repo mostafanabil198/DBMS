@@ -20,6 +20,9 @@ public class FilterFactory {
 	public Filter getFilter() throws SQLException{
         List<String> exp = parseExp();
         Stack<String> prefix = prefexExp(exp);
+//        while(!prefix.isEmpty()) {
+//            System.out.println(prefix.pop());
+//        }
         return finalFilter(prefix);
     }
 	
@@ -91,8 +94,8 @@ public class FilterFactory {
 	            postfix.pop();
 	        } else if (part.equals("(")) {
 	            postfix.add(part);
-	        } else if ((!postfix.isEmpty()) && part.matches("(not)|(and)|(or)")) {
-	            if(postfix.peek().matches("(not)|(and)|(or)")) {
+	        } else if (part.matches("(not)|(and)|(or)")) {
+	            if((!postfix.isEmpty()) && postfix.peek().matches("(not)|(and)|(or)")) {
 	                prefix.add(postfix.pop());
 	            }
 	            postfix.add(part);

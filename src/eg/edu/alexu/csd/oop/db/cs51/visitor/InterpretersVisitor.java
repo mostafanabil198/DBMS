@@ -58,7 +58,6 @@ public class InterpretersVisitor implements Visitor {
 
 	@Override
 	public Object visit(InsertInterpreter insertInterpreter, String query) throws SQLException, ParserConfigurationException, SAXException, IOException {
-		// TODO Auto-generated method stub
 		QueryParameters qp = insertInterpreter.interpret(query);
 		Command insert = new InsertCommand();
 		return insert.execute(qp);

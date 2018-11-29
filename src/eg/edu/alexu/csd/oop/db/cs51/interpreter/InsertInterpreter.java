@@ -12,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
+import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class InsertInterpreter implements Interpreter{
@@ -86,7 +87,7 @@ public class InsertInterpreter implements Interpreter{
             if(v.matches("((\"[^\"]+\")|('[^']+'))")) {
                 v = v.substring(1, v.length() - 1);
             }
-            qp.addColumnValue(values.get(i));
+            qp.addColumnValue(v);
         }
     }
 
