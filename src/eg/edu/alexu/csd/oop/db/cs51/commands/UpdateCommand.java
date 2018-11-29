@@ -15,27 +15,31 @@ import eg.edu.alexu.csd.oop.db.cs51.database.CurrentDatabase;
 import eg.edu.alexu.csd.oop.db.cs51.database.Table;
 import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 
-public class UpdateCommand implements Command{
+public class UpdateCommand implements Command {
 
 	@Override
-	public Object execute(QueryParameters qp) throws ParserConfigurationException, SAXException, IOException, SQLException {
-		String tableName = qp.getTableName();
-		String condition = qp.getCondition();
-		int updated;
-		List<Pair<String, String>> columnsValue = qp.getColumnsValue();
-		Table t = CurrentDatabase.getInstance().getTableFromCache(tableName);
-		if(t == null) {
-			throw new SQLException() ;
-		}
-		if(condition.equals("*")) {
-			updated = t.update(columnsValue);
+	public Object execute(QueryParameters qp)
+			throws ParserConfigurationException, SAXException, IOException, SQLException {
+		if (CurrentDatabase.getInstance().getPath() != null) {
+			String tableName = qp.getTableName();
+			String condition = qp.getCondition();
+			int updated;
+			List<Pair<String, String>> columnsValue = qp.getColumnsValue();
+			Table t = CurrentDatabase.getInstance().getTableFromCache(tableName);
+			if (t == null) {
+				throw new SQLException();
+			}
+			if (condition.equals("*")) {
+				updated = t.update(columnsValue);
+			} else {
+				Filter f = (Filter) new FilterFactory(condition).getFilter();
+				updated = t.update(columnsValue, f);
+			}
+			CurrentDatabase.getInstance().cacheTable(t);
+			return updated;
 		} else {
-			Filter f = (Filter) new FilterFactory(condition).getFilter();
-			updated = t.update(columnsValue, f);
+			throw new SQLException();
 		}
-		CurrentDatabase.getInstance().cacheTable(t);
-		return updated;
 	}
-	
 
 }

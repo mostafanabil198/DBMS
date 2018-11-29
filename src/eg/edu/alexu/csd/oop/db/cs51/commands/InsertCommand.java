@@ -16,12 +16,18 @@ import eg.edu.alexu.csd.oop.db.cs51.utilities.Pair;
 public class InsertCommand implements Command{
     @Override
     public Object execute(QueryParameters qp) throws ParserConfigurationException, SAXException, IOException, SQLException {
-        String tableName = qp.getTableName();
+		if (CurrentDatabase.getInstance().getPath() != null) {
+
+    	String tableName = qp.getTableName();
         List<Pair<String, String>> columnValue = qp.getColumnsValue();
         Table table = CurrentDatabase.getInstance().getTableFromCache(tableName);
         if(table == null) throw new SQLException();
         int inserted = table.insert(columnValue);
         CurrentDatabase.getInstance().cacheTable(table);
         return inserted;
+		} else {
+			throw new SQLException();
+
+		}
     }
 }
