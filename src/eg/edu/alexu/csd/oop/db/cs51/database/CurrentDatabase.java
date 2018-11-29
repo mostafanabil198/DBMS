@@ -113,4 +113,8 @@ public class CurrentDatabase {
 		this.obj = null;
 		this.tablesCache = null;
 	}
+	
+	public void shutdown() {
+		tablesCache.shutdownCache();
+	}
 }

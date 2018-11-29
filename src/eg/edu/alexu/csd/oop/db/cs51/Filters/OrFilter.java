@@ -1,5 +1,6 @@
 package eg.edu.alexu.csd.oop.db.cs51.Filters;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,9 @@ public class OrFilter implements Filter{
         this.b = b;
     }
     @Override
-    public List<Map<String, String>> filterTable(List<Map<String, String>> table) {
-        List<Map<String, String>> filtered1 = a.filterTable(table);
+    public List<Map<String, String>> filterTable(List<Map<String, String>> table) throws SQLException {
+       try {
+    	List<Map<String, String>> filtered1 = a.filterTable(table);
         List<Map<String, String>> filtered2 = b.filterTable(table);
         for (Map<String, String> row: filtered1) {
             if(!filtered2.contains(row)) {
@@ -21,6 +23,9 @@ public class OrFilter implements Filter{
             }
         }
         return filtered2;
+       } catch(Exception e) {
+   		throw new SQLException();
+   	}
     }
 
 }

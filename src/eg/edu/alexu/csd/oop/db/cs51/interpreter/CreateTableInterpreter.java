@@ -13,7 +13,7 @@ import eg.edu.alexu.csd.oop.db.cs51.QueryParameters;
 import eg.edu.alexu.csd.oop.db.cs51.visitor.Visitor;
 
 public class CreateTableInterpreter implements Interpreter{
-    private static final String REGEX = "create +table +([a-zA-Z_][a-zA-Z0-9_]*) *\\( *(([a-zA-Z_][a-zA-Z0-9_]*) +(int|varchar) *(, *([a-zA-Z_][a-zA-Z0-9_]*) +(int|varchar))*) *\\) *;*";
+    private static final String REGEX = "create +table +([a-zA-Z_][a-zA-Z0-9_]*) *\\( *(([a-zA-Z_][a-zA-Z0-9_]*) +(int|varchar)( *, *([a-zA-Z_][a-zA-Z0-9_]*) +(int|varchar))*) *\\) *;*";
     @Override
     public QueryParameters interpret(String query) throws SQLException {
         Pattern pattern = Pattern.compile(REGEX,Pattern.CASE_INSENSITIVE);
