@@ -21,21 +21,8 @@ public class MainSalah {
 
     public static void main(String[] args) throws SQLException {
         DBMS dbms = new DBMS();
-        dbms.createDatabase("sample/db1", true);
-        dbms.executeStructureQuery("Create table shehab (answer varchar, feature varchar, range_3lo2ya int, discussion_rate int)");
-        dbms.executeUpdateQuery("insert into shehab values('createDB', '3lo2ya', '15', '1000');");
-        dbms.executeUpdateQuery("insert into shehab values('createDB', '3lo2ya', '17', '10000');");
-        dbms.executeUpdateQuery("insert into shehab values('createDB', 'mnyka', '15', '5000');");
-        dbms.executeUpdateQuery("insert into shehab values('mfesh bonus', 'sharmata', '10', '2000');");
-        dbms.executeUpdateQuery("insert into shehab values('mfesh bonus', '3lo2ya', '10', '3000');");
         
-        Object[][] nnn = dbms.executeQuery("select * from shehab where answer='mfesh bonus' and (feature = 'mnyka' or not range_3lo2ya = 15);");
-        for(int i = 0; i < nnn.length; i++) {
-            for(int j = 0; j < nnn[i].length; j++) {
-                System.out.print(nnn[i][j] + "     ");
-            }
-            System.out.println("================");
-        }
+        
     }
 
 }
