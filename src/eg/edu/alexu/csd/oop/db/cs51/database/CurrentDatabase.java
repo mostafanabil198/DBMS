@@ -66,6 +66,7 @@ public class CurrentDatabase {
 				f.delete();
 			}
 			file.delete();
+			
 			tablesCache = null;
 			obj = null;
 			return true;
