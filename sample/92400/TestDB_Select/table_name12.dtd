@@ -1,7 +1,0 @@
-<!DOCTYPE table_name12
-[
-<!ELEMENT table_name12 (column_name1, column_name2, column_name3)>
-<!ELEMENT column_name1 (varchar)>
-<!ELEMENT column_name2 (int)>
-<!ELEMENT column_name3 (varchar)>
-]>
